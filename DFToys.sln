@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFToys", "DFToys\DFToys.csproj", "{B5A12048-D5EF-4CAE-B9D5-E7BBA6853019}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.Models", "DFToys.Models\DFToys.Models.csproj", "{A1BAE5F7-B577-4901-913C-EC637CD24B16}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.DbConnection", "DFToys.DbConnection\DFToys.DbConnection.csproj", "{D63EF675-C764-4685-AE91-3BCDEF5180C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.Abstract", "DFToys.Abstract\DFToys.Abstract.csproj", "{7E253447-0875-4F3A-96F0-1F42BC7D60B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.OpenSslRas", "DFToys.OpenSslRas\DFToys.OpenSslRas.csproj", "{E6030DA6-6A19-4804-BB32-7483F4670B85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFToys.DFStartup", "DFToys.DFStartUp\DFToys.DFStartup.csproj", "{C0DB5401-CC1A-48A0-944A-F5256244667D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFToys.PvfCache", "DFToys.PvfCache\DFToys.PvfCache.csproj", "{71CAAF59-123C-4B3B-914D-3455ACE73536}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5A12048-D5EF-4CAE-B9D5-E7BBA6853019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A12048-D5EF-4CAE-B9D5-E7BBA6853019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5A12048-D5EF-4CAE-B9D5-E7BBA6853019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A12048-D5EF-4CAE-B9D5-E7BBA6853019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1BAE5F7-B577-4901-913C-EC637CD24B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1BAE5F7-B577-4901-913C-EC637CD24B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1BAE5F7-B577-4901-913C-EC637CD24B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1BAE5F7-B577-4901-913C-EC637CD24B16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D63EF675-C764-4685-AE91-3BCDEF5180C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D63EF675-C764-4685-AE91-3BCDEF5180C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D63EF675-C764-4685-AE91-3BCDEF5180C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D63EF675-C764-4685-AE91-3BCDEF5180C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E253447-0875-4F3A-96F0-1F42BC7D60B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E253447-0875-4F3A-96F0-1F42BC7D60B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E253447-0875-4F3A-96F0-1F42BC7D60B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E253447-0875-4F3A-96F0-1F42BC7D60B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6030DA6-6A19-4804-BB32-7483F4670B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6030DA6-6A19-4804-BB32-7483F4670B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6030DA6-6A19-4804-BB32-7483F4670B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6030DA6-6A19-4804-BB32-7483F4670B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0DB5401-CC1A-48A0-944A-F5256244667D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0DB5401-CC1A-48A0-944A-F5256244667D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0DB5401-CC1A-48A0-944A-F5256244667D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0DB5401-CC1A-48A0-944A-F5256244667D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71CAAF59-123C-4B3B-914D-3455ACE73536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71CAAF59-123C-4B3B-914D-3455ACE73536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71CAAF59-123C-4B3B-914D-3455ACE73536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71CAAF59-123C-4B3B-914D-3455ACE73536}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {753B1699-69B1-40AD-938E-DB9B4B5A9A40}
+	EndGlobalSection
+EndGlobal
