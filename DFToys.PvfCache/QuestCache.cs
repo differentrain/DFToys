@@ -185,11 +185,16 @@ namespace DFToys.PvfCache
             return 5;
         }
 
-        private static int UpdateState_6(PvfObjectReader reader)
+        private int UpdateState_6(PvfObjectReader reader)
         {
             if (reader.Token == 9)
             {
                 return 7;
+            }
+            else if (reader.Token == 7)
+            {
+                Name = reader.TryGetString();
+                return 0;
             }
             else if (reader.Token == 5)
             {
