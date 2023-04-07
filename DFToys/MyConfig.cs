@@ -25,7 +25,9 @@ namespace DFToys
                     MyConfig config = JsonSerializer.Deserialize<MyConfig>(fs);
                     Shared = config ?? new MyConfig();
                 }
-                catch { }
+                catch {
+                    Shared=new MyConfig();
+                }
             }
             else
             {

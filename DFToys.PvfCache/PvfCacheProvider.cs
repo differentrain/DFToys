@@ -79,13 +79,18 @@ namespace DFToys.PvfCache
                 Parallel.For(0, dictLen, i =>
                 {
                     KeyValuePair<int, string> dictPathInfo = GetListItem(tbuf, i, _stringTable);
-                    dict.Add(
-                        dictPathInfo.Key,
-                        GetPvfObject<TPvfObject>(
-                            _fileDict[$"{folder}/{dictPathInfo.Value}"],
-                            dictIndex,
-                            strDict
-                        ));
+                    if (_fileDict.TryGetValue($"{folder}/{dictPathInfo.Value}",out PvfFile pvfInfo))
+                    {
+                        dict.Add(
+                           dictPathInfo.Key,
+                           GetPvfObject<TPvfObject>(
+                               pvfInfo,
+                               dictIndex,
+                               strDict
+                           ));
+                    }
+
+                   
                 });
                 return dict;
             }
