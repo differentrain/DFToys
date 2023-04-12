@@ -64,7 +64,7 @@ namespace DFToys.Patch
             WriteToStream(fs, 0x647EDA, level);
 
             // CUser::CalcurateUserMaxLevel
-            WriteToStream(fs, 0x647F7F, level);
+            WriteToStream(fs, 0x647F82, level);
 
         }
 
