@@ -1,11 +1,7 @@
 ﻿using DFToys.PvfCache;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DFToys
 {
@@ -25,8 +21,9 @@ namespace DFToys
                     MyConfig config = JsonSerializer.Deserialize<MyConfig>(fs);
                     Shared = config ?? new MyConfig();
                 }
-                catch {
-                    Shared=new MyConfig();
+                catch
+                {
+                    Shared = new MyConfig();
                 }
             }
             else

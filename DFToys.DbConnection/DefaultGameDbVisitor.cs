@@ -1,12 +1,10 @@
 ﻿using DFToys.DbConnection.Internals;
 using DFToys.Models;
 using DFToys.PvfCache;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace DFToys.DbConnection

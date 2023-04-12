@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DFToys.Models
+﻿namespace DFToys.Models
 {
     public sealed class GameUserInfo
     {
-        public GameUserInfo(int id, string name, GameCharacter[] characters )
+        public GameUserInfo(int id, string name, GameCharacter[] characters)
         {
             Id = id;
             Name = name;

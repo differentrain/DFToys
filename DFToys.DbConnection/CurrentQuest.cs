@@ -1,9 +1,5 @@
-﻿using DFToys.Models;
-using DFToys.PvfCache;
-using System;
+﻿using DFToys.PvfCache;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace DFToys.DbConnection
 {
@@ -16,7 +12,7 @@ namespace DFToys.DbConnection
             Index = index;
             _id = id;
             questCache.TryGetValue(id, out QuestCache info);
-            Info=info;
+            Info = info;
         }
 
         public int Index { get; }

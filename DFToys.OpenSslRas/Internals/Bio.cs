@@ -1,9 +1,6 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace DFToys.OpenSslRas.Internals
 {
@@ -20,7 +17,7 @@ namespace DFToys.OpenSslRas.Internals
                     if (IntPtr.Size == 4)
                     {
                         IntPtr p = NativeMethods.BIO_s_mem();
-                        if (p == IntPtr.Zero || (handle = NativeMethods.BIO_new(p))==IntPtr.Zero || NativeMethods.BIO_write(handle, pb, key.Length) != key.Length)
+                        if (p == IntPtr.Zero || (handle = NativeMethods.BIO_new(p)) == IntPtr.Zero || NativeMethods.BIO_write(handle, pb, key.Length) != key.Length)
                             throw new Win32Exception();
                     }
                     else

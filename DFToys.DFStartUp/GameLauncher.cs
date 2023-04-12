@@ -1,14 +1,8 @@
 ﻿using DFToys.DFStartup.Properties;
 using DFToys.OpenSslRas;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Resources;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading;
 
 namespace DFToys.GameStartup
 {
@@ -34,11 +28,12 @@ namespace DFToys.GameStartup
             Process proc = null;
             try
             {
-                var psi = new ProcessStartInfo() {
+                var psi = new ProcessStartInfo()
+                {
                     FileName = gamePath,
                     Arguments = CreateArgs(userId, rsakey),
                     UseShellExecute = false,
-                    WorkingDirectory= Path.GetDirectoryName(gamePath),
+                    WorkingDirectory = Path.GetDirectoryName(gamePath),
                 };
 
                 proc = Process.Start(psi);

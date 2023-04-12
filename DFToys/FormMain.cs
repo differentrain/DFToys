@@ -1,18 +1,10 @@
 ﻿using DFToys.DbConnection;
 using DFToys.GameStartup;
 using DFToys.Models;
-using DFToys.PvfCache;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DFToys
@@ -139,7 +131,8 @@ namespace DFToys
             try
             {
                 var user = _db.GetUserInfo(TextBoxUserId.Text);
-                if (user == null) {
+                if (user == null)
+                {
                     MessageBox.Show("帐号尚未注册。", "错误");
                     return;
                 }
@@ -163,7 +156,7 @@ namespace DFToys
             {
                 _db.Register(TextBoxUserId.Text);
                 MyConfig.Shared.Uid = TextBoxUserId.Text;
-                MessageBox.Show( "帐号注册成功。");
+                MessageBox.Show("帐号注册成功。");
             }
             catch (Exception ecx)
             {

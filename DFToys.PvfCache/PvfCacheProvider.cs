@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -79,7 +78,7 @@ namespace DFToys.PvfCache
                 Parallel.For(0, dictLen, i =>
                 {
                     KeyValuePair<int, string> dictPathInfo = GetListItem(tbuf, i, _stringTable);
-                    if (_fileDict.TryGetValue($"{folder}/{dictPathInfo.Value}",out PvfFile pvfInfo))
+                    if (_fileDict.TryGetValue($"{folder}/{dictPathInfo.Value}", out PvfFile pvfInfo))
                     {
                         dict.Add(
                            dictPathInfo.Key,
@@ -90,7 +89,7 @@ namespace DFToys.PvfCache
                            ));
                     }
 
-                   
+
                 });
                 return dict;
             }

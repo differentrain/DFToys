@@ -1,14 +1,4 @@
-﻿using DFToys.DbConnection;
-using DFToys.GameStartup;
-
-using DFToys.PvfCache;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace DFToys
