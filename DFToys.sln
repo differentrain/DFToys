@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.Abstract", "DFToys.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.OpenSslRas", "DFToys.OpenSslRas\DFToys.OpenSslRas.csproj", "{E6030DA6-6A19-4804-BB32-7483F4670B85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFToys.DFStartup", "DFToys.DFStartUp\DFToys.DFStartup.csproj", "{C0DB5401-CC1A-48A0-944A-F5256244667D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.DFStartup", "DFToys.DFStartUp\DFToys.DFStartup.csproj", "{C0DB5401-CC1A-48A0-944A-F5256244667D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFToys.PvfCache", "DFToys.PvfCache\DFToys.PvfCache.csproj", "{71CAAF59-123C-4B3B-914D-3455ACE73536}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFToys.PvfCache", "DFToys.PvfCache\DFToys.PvfCache.csproj", "{71CAAF59-123C-4B3B-914D-3455ACE73536}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFToys.Patch", "DFToys.Patch\DFToys.Patch.csproj", "{1EC84F14-9BF8-4619-9AE6-B7ACAE9C10A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{71CAAF59-123C-4B3B-914D-3455ACE73536}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71CAAF59-123C-4B3B-914D-3455ACE73536}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71CAAF59-123C-4B3B-914D-3455ACE73536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EC84F14-9BF8-4619-9AE6-B7ACAE9C10A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EC84F14-9BF8-4619-9AE6-B7ACAE9C10A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EC84F14-9BF8-4619-9AE6-B7ACAE9C10A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EC84F14-9BF8-4619-9AE6-B7ACAE9C10A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

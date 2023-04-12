@@ -167,6 +167,12 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPatch.Designer.cs">
+      <DependentUpon>FormPatch.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPvf.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPatch.resx">
+      <DependentUpon>FormPatch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPvf.resx">
       <DependentUpon>FormPvf.cs</DependentUpon>
@@ -220,6 +229,10 @@
     <ProjectReference Include="..\DFToys.Models\DFToys.Models.csproj">
       <Project>{a1bae5f7-b577-4901-913c-ec637cd24b16}</Project>
       <Name>DFToys.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFToys.Patch\DFToys.Patch.csproj">
+      <Project>{1ec84f14-9bf8-4619-9ae6-b7acae9c10a6}</Project>
+      <Name>DFToys.Patch</Name>
     </ProjectReference>
     <ProjectReference Include="..\DFToys.PvfCache\DFToys.PvfCache.csproj">
       <Project>{71caaf59-123c-4b3b-914d-3455ace73536}</Project>
