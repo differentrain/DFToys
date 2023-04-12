@@ -62,7 +62,7 @@
             this.ListBoxQuest = new System.Windows.Forms.ListBox();
             this.ButtonRefresh = new System.Windows.Forms.Button();
             this.SaveFileDialogMain = new System.Windows.Forms.SaveFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ButtonPatch = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBoxID.SuspendLayout();
@@ -85,7 +85,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.ButtonPatch);
             this.tabPage1.Controls.Add(this.ButtonSaveRsaKey);
             this.tabPage1.Controls.Add(this.GroupBoxID);
             this.tabPage1.Controls.Add(this.groupBox2);
@@ -416,14 +416,15 @@
             this.SaveFileDialogMain.FileName = "publickey.pem";
             this.SaveFileDialogMain.Filter = "密钥文件|*.pem";
             // 
-            // button1
+            // ButtonPatch
             // 
-            this.button1.Location = new System.Drawing.Point(82, 317);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(57, 26);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "补丁";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ButtonPatch.Location = new System.Drawing.Point(82, 317);
+            this.ButtonPatch.Name = "ButtonPatch";
+            this.ButtonPatch.Size = new System.Drawing.Size(57, 26);
+            this.ButtonPatch.TabIndex = 12;
+            this.ButtonPatch.Text = "补丁";
+            this.ButtonPatch.UseVisualStyleBackColor = true;
+            this.ButtonPatch.Click += new System.EventHandler(this.ButtonPatch_Click);
             // 
             // FormMain
             // 
@@ -488,7 +489,7 @@
         private System.Windows.Forms.ListBox ListBoxQuest;
         private System.Windows.Forms.Button ButtonRefresh;
         private System.Windows.Forms.Button ButtonForceQuest;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ButtonPatch;
     }
 }
 

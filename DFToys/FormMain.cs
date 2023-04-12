@@ -20,6 +20,7 @@ namespace DFToys
     public partial class FormMain : Form
     {
         private readonly FormPvf _pvfLoadDialog = new FormPvf();
+        private readonly FormPatch _pvfPatchDialog = new FormPatch();
 
         private readonly GameLauncher _launcher = new GameLauncher();
 
@@ -283,6 +284,11 @@ namespace DFToys
             {
                 MessageBox.Show(ecx.Message, "操作失败");
             }
+        }
+
+        private void ButtonPatch_Click(object sender, EventArgs e)
+        {
+            _pvfPatchDialog.ShowDialog(this);
         }
     }
 }
