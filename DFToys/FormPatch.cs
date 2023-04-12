@@ -39,7 +39,7 @@ namespace DFToys
         {
             if (TextBoxLevel.Enabled)
             {
-                ButtonPatch.Enabled = byte.TryParse(TextBoxLevel.Text, out _);
+                ButtonPatch.Enabled = byte.TryParse(TextBoxLevel.Text, out byte level) && level >= 50;
             }
             else if (CheckBoxGmOn.Enabled)
             {
