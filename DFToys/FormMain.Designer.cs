@@ -325,7 +325,7 @@
             // CheckBoxTopMost
             // 
             this.CheckBoxTopMost.AutoSize = true;
-            this.CheckBoxTopMost.Location = new System.Drawing.Point(172, 323);
+            this.CheckBoxTopMost.Location = new System.Drawing.Point(163, 323);
             this.CheckBoxTopMost.Name = "CheckBoxTopMost";
             this.CheckBoxTopMost.Size = new System.Drawing.Size(72, 16);
             this.CheckBoxTopMost.TabIndex = 4;
@@ -418,11 +418,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(81, 317);
+            this.button1.Location = new System.Drawing.Point(82, 317);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(72, 26);
+            this.button1.Size = new System.Drawing.Size(57, 26);
             this.button1.TabIndex = 12;
-            this.button1.Text = "补丁...";
+            this.button1.Text = "补丁";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // FormMain
