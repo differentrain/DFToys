@@ -40,3 +40,12 @@ Pvf读取用于获取游戏中的任务名称。
 
 **但是，并不排除有其他服务端提供者对于 `df_game_r` 进行了修补，所以使用补丁前请务必备份原文件。**
  
+## 数据库编码
+
+在1.0.3之前的版本中，存在数据库乱码的问题。这是因为MySQL的默认编码是latin1，对应Windows代码页1252。
+
+于是在更新中，为 `DFToys.Abstract.SingletonRecordCreator` 抽象类添加了 `string GetStringFromSqlString(string sqlString)` 方法，用以完成字符串的转换。
+
+如依然有乱码问题，应当检查服务器中的MySQL编码配置，它通常位于 `/etc/my.cnt` 文件中，并重写 `string GetStringFromSqlString(string sqlString)` 方法。
+
+另外，根据规范，cp1252中，以下字符属于未定义：`0x81`, `0x8D`, `0x8F`, `0x90`, `0x9D`. 而MySQL所实现的latin1，会将这五个字符映射为Unicode16编码。但在实际测试中，.NET Frameworks的Encoding可以自动完成此映射操作，无需特殊处理。
