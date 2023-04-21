@@ -117,6 +117,7 @@ namespace DFToys.PvfCache
                     _state = 6;
                     return true;
                 case "[part set index]":
+                case "[set item]":
                     IsSuit = true;
                     _state = 0;
                     return false;
