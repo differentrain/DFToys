@@ -83,7 +83,7 @@
             // ButtonPatch
             // 
             this.ButtonPatch.Enabled = false;
-            this.ButtonPatch.Location = new System.Drawing.Point(152, 12);
+            this.ButtonPatch.Location = new System.Drawing.Point(176, 14);
             this.ButtonPatch.Name = "ButtonPatch";
             this.ButtonPatch.Size = new System.Drawing.Size(63, 35);
             this.ButtonPatch.TabIndex = 4;
@@ -99,7 +99,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(227, 61);
+            this.ClientSize = new System.Drawing.Size(251, 61);
             this.Controls.Add(this.ButtonPatch);
             this.Controls.Add(this.TextBoxLevel);
             this.Controls.Add(this.CheckBoxSetLevel);

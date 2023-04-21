@@ -1,4 +1,4 @@
-﻿using DFToys.Abstract;
+﻿using DFToys.Common;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -11,14 +11,11 @@ namespace DFToys.DbConnection
         where TSelf : GameDbVisitor<TSelf>
     {
 
-        private static TSelf s_shared = null;
-
         // 不要升级MySql.Data库，也不要采用Nuget版本
         // 因为>5的版本不支持不安全的连接方式
         // 对于MySql4.1之前的版本而言，不安全的连接方式是必须的
 
         private MySqlConnection _dbc;
-
 
         protected GameDbVisitor(string ip, int port, string user, string password)
         {
@@ -36,16 +33,9 @@ namespace DFToys.DbConnection
             }
         }
 
-        public static TSelf InitializeShared(string ip, int port, string user, string password)
-        {
-            s_shared?.Dispose();
-            return s_shared = (TSelf)Activator.CreateInstance(typeof(TSelf), ip, port, user, password);
-        }
-
-        public static TSelf Shared => s_shared != null && s_shared._dbc != null ? s_shared : throw new InvalidOperationException();
-
-
-        protected IEnumerable<TRecord> Queue<TRecord, TCreator>(string db, string sql) where TCreator : SingletonRecordCreator<TRecord, TCreator>, new()
+        public IEnumerable<TRecord> Queue<TRecord, TCreator, TStringConvert>(string db, string sql)
+            where TCreator : RecordCreator<TRecord, TCreator>, new()
+            where TStringConvert : DbStringConvert<TStringConvert>, new()
         {
             if (db != null)
                 _dbc.ChangeDatabase(db);
@@ -57,13 +47,13 @@ namespace DFToys.DbConnection
                     var enumerator = new DbEnumerator(reader);
                     while (enumerator.MoveNext())
                     {
-                        yield return SingletonRecordCreator<TRecord, TCreator>.Instance.Create(enumerator.Current as IDataRecord);
+                        yield return RecordCreator<TRecord, TCreator>.Instance.Create<TStringConvert>(enumerator.Current as IDataRecord);
                     }
                 }
             }
         }
 
-        protected IEnumerable<IDataRecord> QueueCore(string db, string sql)
+        public IEnumerable<IDataRecord> QueueCore(string db, string sql)
         {
             if (db != null)
                 _dbc.ChangeDatabase(db);
@@ -81,7 +71,7 @@ namespace DFToys.DbConnection
             }
         }
 
-        protected void NoneQueue(string db, string sql)
+        public void NoneQueue(string db, string sql)
         {
             if (db != null)
                 _dbc.ChangeDatabase(db);

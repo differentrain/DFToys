@@ -1,4 +1,5 @@
 ﻿using DFToys.PvfCache.Internals;
+using System;
 using System.Collections.Generic;
 
 namespace DFToys.PvfCache
@@ -26,12 +27,18 @@ namespace DFToys.PvfCache
                 begin = 0;
                 ch = '\0';
             }
+
+            public void AddDict(int length)
+            {
+                if (!strDict.ContainsKey(key))
+                    strDict.Add(key, str.Substring(begin, length));
+            }
         }
 
 
-        private Dictionary<string, string> CreateStrDict(PvfFile strFile)
+        private Dictionary<string, string> CreateStrDictCore(PvfFile strFile)
         {
-            BytesBuffer strBuf = BytesBuffer.CreateAndDecodeFromStream(_stream, strFile, strFile.SeekPos);
+            BytesBuffer strBuf = BytesBuffer.CreateAndDecodeFromStream(_stream, strFile, strFile.SeekPos, true);
             string str = strBuf.GetString(strFile.FileLength, _strEncoding);
             strBuf.Dispose();
             var mcontent = new DictParseContent(str);
@@ -121,7 +128,7 @@ namespace DFToys.PvfCache
             if (content.ch == '\r' || content.ch == '\n')
             {
                 content.state = 0;
-                content.strDict.Add(content.key, content.str.Substring(content.begin, content.i - content.begin));
+                content.AddDict(content.i - content.begin);
             }
             else if (content.ch == '/')
             {
@@ -134,12 +141,12 @@ namespace DFToys.PvfCache
             if (content.ch == '/')
             {
                 content.state = 5;
-                content.strDict.Add(content.key, content.str.Substring(content.begin, content.i - content.begin - 1));
+                content.AddDict(content.i - content.begin - 1);
             }
             else if (content.ch == '\r' || content.ch == '\n')
             {
                 content.state = 0;
-                content.strDict.Add(content.key, content.str.Substring(content.begin, content.i - content.begin));
+                content.AddDict(content.i - content.begin);
             }
             else
             {

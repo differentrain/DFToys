@@ -58,12 +58,12 @@ namespace DFToys.OpenSslRas
         {
             if (IntPtr.Size == 4)
             {
-                NativeMethods.EVP_PKEY_free(handle);
+                NativeMethods.RSA_free(handle);
                 NativeMethods.EVP_PKEY_free(_rsaKey);
             }
             else
             {
-                NativeMethodsX64.EVP_PKEY_free(handle);
+                NativeMethodsX64.RSA_free(handle);
                 NativeMethodsX64.EVP_PKEY_free(_rsaKey);
             }
             return true;

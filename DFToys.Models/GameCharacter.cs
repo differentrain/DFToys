@@ -1,9 +1,9 @@
-﻿using DFToys.Abstract;
+﻿using DFToys.Common;
 using System;
 
 namespace DFToys.Models
 {
-    public sealed class GameCharacter : SingletonRecordCreator<GameCharacter, GameCharacter>, IEquatable<GameCharacter>
+    public sealed class GameCharacter : RecordCreator<GameCharacter, GameCharacter>, IEquatable<GameCharacter>
     {
         public GameCharacter() { }
 

@@ -1,16 +1,22 @@
-﻿using DFToys.Abstract;
+﻿using DFToys.Common;
 using System.Data;
 
 namespace DFToys.DbConnection.Internals
 {
-    internal sealed class SimpleRecord<T> : SingletonRecordCreator<T, SimpleRecord<T>>
+    internal sealed class SimpleRecord<T> : RecordCreator<T, SimpleRecord<T>>
     {
         public SimpleRecord() { }
 
-        public override T Create(IDataRecord record)
+        public override T Create<TStringConvert>(IDataRecord record)
         {
-            return (T)record.GetValue(0);
+            if (record.GetFieldType(0) == typeof(string))
+            {
+                return (T)(object)DbStringConvert<TStringConvert>.Instance.FromDbString(record.GetString(0));
+            }
+            else
+            {
+                return (T)record.GetValue(0);
+            }
         }
-
     }
 }

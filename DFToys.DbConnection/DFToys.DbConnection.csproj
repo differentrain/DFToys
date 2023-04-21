@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFToys.Abstract\DFToys.Abstract.csproj" />
     <ProjectReference Include="..\DFToys.Models\DFToys.Models.csproj" />
     <ProjectReference Include="..\DFToys.PvfCache\DFToys.PvfCache.csproj" />
   </ItemGroup>

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFToys.Abstract\DFToys.Abstract.csproj" />
+    <ProjectReference Include="..\DFToys.Common\DFToys.Common.csproj" />
   </ItemGroup>
 
 </Project>

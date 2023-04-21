@@ -40,15 +40,13 @@ namespace DFToys
 
         public string Pwd { get; set; } = "uu5!^%jg";
 
-        public string Uid { get; set; } = string.Empty;
+        public string UName { get; set; } = string.Empty;
 
         public string DfPath { get; set; } = @"..\dnf.exe";
 
         public string PvfPath { get; set; } = @"..\script.pvf";
 
         public bool TopMost { get; set; } = false;
-
-        public Dictionary<int, QuestCache> QuestCache { get; set; }
 
 
         public void Save()

@@ -97,6 +97,9 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=7.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.7.0.5\lib\net462\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -161,6 +164,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormEquipments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEquipments.Designer.cs">
+      <DependentUpon>FormEquipments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormItems.Designer.cs">
+      <DependentUpon>FormItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,9 +194,17 @@
     <Compile Include="FormPvf.Designer.cs">
       <DependentUpon>FormPvf.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewSorter.cs" />
+    <Compile Include="MyCache.cs" />
     <Compile Include="MyConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormEquipments.resx">
+      <DependentUpon>FormEquipments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormItems.resx">
+      <DependentUpon>FormItems.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -218,6 +241,10 @@
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DFToys.Common\DFToys.Common.csproj">
+      <Project>{0AD7D7D1-FE9E-4D62-9F9B-42A4912824E9}</Project>
+      <Name>DFToys.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DFToys.DbConnection\DFToys.DbConnection.csproj">
       <Project>{d63ef675-c764-4685-ae91-3bcdef5180c7}</Project>
       <Name>DFToys.DbConnection</Name>

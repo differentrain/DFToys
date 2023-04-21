@@ -1,4 +1,5 @@
-﻿using DFToys.DbConnection;
+﻿using DFToys.Common;
+using DFToys.DbConnection;
 using DFToys.GameStartup;
 using DFToys.Models;
 using System;
@@ -12,12 +13,17 @@ namespace DFToys
     public partial class FormMain : Form
     {
         private readonly FormPvf _pvfLoadDialog = new FormPvf();
-        private readonly FormPatch _pvfPatchDialog = new FormPatch();
+        private readonly FormPatch _gamePatchDialog = new FormPatch();
+        private readonly FormItems _itemMainWindow = new FormItems();
+        private readonly FormEquipments _equipmentsMainWindow = new FormEquipments();
 
         private readonly GameLauncher _launcher = new GameLauncher();
 
-        private DefaultGameDbVisitor _db = null;
+        public static DefaultGameDbVisitor GameDb = null;
 
+        public static int UId;
+
+        public static GameCharacter GameCharac;
 
 
         public FormMain()
@@ -29,9 +35,19 @@ namespace DFToys
             TextBoxDbId.Text = MyConfig.Shared.DbId;
             TextBoxPwd.Text = MyConfig.Shared.Pwd;
             CheckBoxTopMost.Checked = this.TopMost = MyConfig.Shared.TopMost;
-            TextBoxQuestCount.Text = MyConfig.Shared.QuestCache == null ?
-                string.Empty : $"共 {MyConfig.Shared.QuestCache.Count} 项任务";
-            TextBoxUserId.Text = MyConfig.Shared.Uid;
+            if (MyCache.Shared.QuestCache == null)
+            {
+                TextBoxQuestCount.Text = string.Empty;
+            }
+            else
+            {
+                TextBoxQuestCount.Text = $"任务:{MyCache.Shared.QuestCache.Count};物品:{MyCache.Shared.ItemCache.Count};装备:{MyCache.Shared.EquipmentCache.Count}";
+                _itemMainWindow.UpdateByCache();
+                _equipmentsMainWindow.UpdateByCache();  
+            }
+
+ 
+            TextBoxUserName.Text = MyConfig.Shared.UName;
 
         }
 
@@ -57,16 +73,27 @@ namespace DFToys
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _db?.Dispose();
+            GameDb?.Dispose();
             MyConfig.Shared.Save();
+            MyCache.Shared.Save();
         }
 
         private void ButtonPvf_Click(object sender, EventArgs e)
         {
+            if (_itemMainWindow.Visible)
+                _itemMainWindow.Hide();
+            if (_equipmentsMainWindow.Visible)
+                _equipmentsMainWindow.Hide();
             if (_pvfLoadDialog.ShowDialog() == DialogResult.OK)
             {
-                MyConfig.Shared.QuestCache = _pvfLoadDialog.QuestCache;
-                TextBoxQuestCount.Text = $"共 {MyConfig.Shared.QuestCache.Count} 项任务";
+                MyCache.Shared.QuestCache = _pvfLoadDialog.QuestCache;
+                MyCache.Shared.ItemCache = _pvfLoadDialog.ItemCache;
+                MyCache.Shared.EquipmentCache = _pvfLoadDialog.EquipmentCache;
+                MyCache.Shared.EquipmentIndexCache = _pvfLoadDialog.EquipmentIndexCache;
+                MyCache.Shared.ItemIndexCache = _pvfLoadDialog.ItemIndexCache;
+                TextBoxQuestCount.Text = $"任务:{MyCache.Shared.QuestCache.Count};物品:{MyCache.Shared.ItemCache.Count};装备:{MyCache.Shared.EquipmentCache.Count}";
+                _itemMainWindow.UpdateByCache();
+                _equipmentsMainWindow.UpdateByCache();
             }
         }
 
@@ -82,11 +109,11 @@ namespace DFToys
 
         private void ButtonDB_Click(object sender, EventArgs e)
         {
-            if (_db == null)
+            if (GameDb == null)
             {
                 try
                 {
-                    _db = new DefaultGameDbVisitor(
+                    GameDb = new DefaultGameDbVisitor(
                       TextBoxIp.Text,
                       ushort.Parse(TextBoxPort.Text),
                       TextBoxDbId.Text,
@@ -102,14 +129,14 @@ namespace DFToys
                 catch (Exception ecx)
                 {
                     MessageBox.Show(ecx.Message, "连接失败");
-                    _db?.Dispose();
-                    _db = null;
+                    GameDb?.Dispose();
+                    GameDb = null;
                 }
             }
             else
             {
-                _db.Dispose();
-                _db = null;
+                GameDb.Dispose();
+                GameDb = null;
                 TextBoxIp.Enabled = TextBoxPort.Enabled = TextBoxDbId.Enabled = TextBoxPwd.Enabled = true;
                 GroupBoxID.Enabled = false;
                 ButtonDB.Text = "连接";
@@ -117,20 +144,32 @@ namespace DFToys
                 ListBoxCharac.Items.Clear();
                 ListBoxQuest.SelectedItems.Clear();
                 ListBoxQuest.Items.Clear();
+                if (_itemMainWindow.Visible)
+                    _itemMainWindow.Hide();
+                if (_equipmentsMainWindow.Visible)
+                    _equipmentsMainWindow.Hide();
+
+
 
             }
         }
 
         private void TextBoxUserId_TextChanged(object sender, EventArgs e)
         {
-            ButtonRun.Enabled = ButtonReg.Enabled = ButtonGetCharac.Enabled = !string.IsNullOrWhiteSpace(TextBoxUserId.Text);
+            ButtonRun.Enabled = ButtonReg.Enabled = ButtonGetCharac.Enabled = !string.IsNullOrWhiteSpace(TextBoxUserName.Text);
         }
+
+
 
         private void ButtonGetCharac_Click(object sender, EventArgs e)
         {
             try
             {
-                var user = _db.GetUserInfo(TextBoxUserId.Text);
+                if (_itemMainWindow.Visible)
+                    _itemMainWindow.Hide();
+                if (_equipmentsMainWindow.Visible)
+                    _equipmentsMainWindow.Hide();
+                var user = GameDb.GetUserInfo<DefaultDbStringConvert>(TextBoxUserName.Text);
                 if (user == null)
                 {
                     MessageBox.Show("帐号尚未注册。", "错误");
@@ -141,11 +180,13 @@ namespace DFToys
                 ListBoxCharac.Items.AddRange(user.Characters);
                 ListBoxQuest.SelectedItems.Clear();
                 ListBoxQuest.Items.Clear();
-                MyConfig.Shared.Uid = TextBoxUserId.Text;
+                MyConfig.Shared.UName = TextBoxUserName.Text;
+                UId = user.Id;
             }
             catch (Exception ecx)
             {
                 MessageBox.Show(ecx.Message, "错误");
+                UId = -1;
             }
 
         }
@@ -154,8 +195,8 @@ namespace DFToys
         {
             try
             {
-                _db.Register(TextBoxUserId.Text);
-                MyConfig.Shared.Uid = TextBoxUserId.Text;
+                GameDb.Register<DefaultDbStringConvert>(TextBoxUserName.Text);
+                MyConfig.Shared.UName = TextBoxUserName.Text;
                 MessageBox.Show("帐号注册成功。");
             }
             catch (Exception ecx)
@@ -168,14 +209,14 @@ namespace DFToys
         {
             try
             {
-                var user = _db.GetUserInfo(TextBoxUserId.Text);
+                var user = GameDb.GetUserInfo<DefaultDbStringConvert>(TextBoxUserName.Text);
                 if (user == null)
                 {
                     MessageBox.Show("帐号尚未注册。", "错误");
                     return;
                 }
                 _launcher.Run(MyConfig.Shared.DfPath, user.Id);
-                MyConfig.Shared.Uid = TextBoxUserId.Text;
+                MyConfig.Shared.UName = TextBoxUserName.Text;
             }
             catch (Exception ecx)
             {
@@ -185,7 +226,8 @@ namespace DFToys
 
         private void ListBoxCharac_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PanelQuest.Enabled = ListBoxCharac.SelectedIndex >= 0 && !string.IsNullOrWhiteSpace(TextBoxQuestCount.Text);
+             GroupBoxMail.Enabled = PanelQuest.Enabled = ListBoxCharac.SelectedIndex >= 0 && !string.IsNullOrWhiteSpace(TextBoxQuestCount.Text);
+            GameCharac = ListBoxCharac.SelectedItem as GameCharacter;
             ListBoxQuest.SelectedItems.Clear();
             ListBoxQuest.Items.Clear();
 
@@ -193,7 +235,7 @@ namespace DFToys
 
         private void TextBoxQuestCount_TextChanged(object sender, EventArgs e)
         {
-            PanelQuest.Enabled = ListBoxCharac.SelectedIndex >= 0 && !string.IsNullOrWhiteSpace(TextBoxQuestCount.Text);
+            GroupBoxMail.Enabled = PanelQuest.Enabled = ListBoxCharac.SelectedIndex >= 0 && !string.IsNullOrWhiteSpace(TextBoxQuestCount.Text);
         }
 
 
@@ -201,11 +243,10 @@ namespace DFToys
         {
             ListBoxQuest.SelectedItems.Clear();
             ListBoxQuest.Items.Clear();
-
-            var gameCharacter = ListBoxCharac.SelectedItem as GameCharacter;
+ 
             try
             {
-                var quests = _db.GetQuest(gameCharacter.Id, MyConfig.Shared.QuestCache);
+                var quests = GameDb.GetQuest(GameCharac.Id, MyCache.Shared.QuestCache);
                 ListBoxQuest.Items.AddRange(quests);
                 ButtonClearAll.Enabled = ListBoxQuest.Items.Count > 0;
             }
@@ -225,11 +266,11 @@ namespace DFToys
         private void ButtonClearQuest_Click(object sender, EventArgs e)
         {
             var x = ListBoxQuest.SelectedItems.Cast<CurrentQuest>().ToArray();
-            var gameCharacter = ListBoxCharac.SelectedItem as GameCharacter;
+ 
 
             try
             {
-                _db.ClearQuest(gameCharacter.Id, x.ToArray());
+                GameDb.ClearQuest<DefaultDbStringConvert>(GameCharac.Id, x.ToArray());
                 for (int i = 0; i < x.Length; i++)
                 {
                     ListBoxQuest.SelectedItems.Remove(x[i]);
@@ -246,10 +287,10 @@ namespace DFToys
         private void ButtonClearAll_Click(object sender, EventArgs e)
         {
             var x = ListBoxQuest.Items.Cast<CurrentQuest>().ToArray();
-            var gameCharacter = ListBoxCharac.SelectedItem as GameCharacter;
+ 
             try
             {
-                _db.ClearQuest(gameCharacter.Id, x.ToArray());
+                GameDb.ClearQuest<DefaultDbStringConvert>(GameCharac.Id, x.ToArray());
                 ListBoxQuest.SelectedItems.Clear();
                 ListBoxQuest.Items.Clear();
 
@@ -265,13 +306,11 @@ namespace DFToys
         {
             ListBoxQuest.SelectedItems.Clear();
             ListBoxQuest.Items.Clear();
-
-            var gameCharacter = ListBoxCharac.SelectedItem as GameCharacter;
-
+ 
             try
             {
-                var quests = _db.GetQuest(gameCharacter.Id, MyConfig.Shared.QuestCache);
-                _db.ClearQuest(gameCharacter.Id, quests);
+                var quests = GameDb.GetQuest(GameCharac.Id, MyCache.Shared.QuestCache);
+                GameDb.ClearQuest<DefaultDbStringConvert>(GameCharac.Id, quests);
             }
             catch (Exception ecx)
             {
@@ -281,7 +320,35 @@ namespace DFToys
 
         private void ButtonPatch_Click(object sender, EventArgs e)
         {
-            _pvfPatchDialog.ShowDialog(this);
+            _gamePatchDialog.ShowDialog(this);
+        }
+
+        private void ButtonItemMain_Click(object sender, EventArgs e)
+        {
+            if (!_itemMainWindow.Visible)
+            {
+                _itemMainWindow.Show(this);
+            }
+        }
+
+        private void ButtonEquipments_Click(object sender, EventArgs e)
+        {
+            if (!_equipmentsMainWindow.Visible)
+            {
+                _equipmentsMainWindow.Show(this);
+            }
+        }
+
+        private void ButtonClearMail_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                GameDb.ClearMail(GameCharac.Id);
+            }
+            catch (Exception ecx)
+            {
+                MessageBox.Show(ecx.Message, "操作失败");
+            }
         }
     }
 }

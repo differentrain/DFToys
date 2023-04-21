@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ButtonPatch = new System.Windows.Forms.Button();
             this.ButtonSaveRsaKey = new System.Windows.Forms.Button();
             this.GroupBoxID = new System.Windows.Forms.GroupBox();
             this.ButtonReg = new System.Windows.Forms.Button();
@@ -39,7 +40,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.ListBoxCharac = new System.Windows.Forms.ListBox();
             this.ButtonRun = new System.Windows.Forms.Button();
-            this.TextBoxUserId = new System.Windows.Forms.TextBox();
+            this.TextBoxUserName = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.TextBoxQuestCount = new System.Windows.Forms.TextBox();
             this.ButtonPvf = new System.Windows.Forms.Button();
@@ -61,8 +62,12 @@
             this.ButtonClearQuest = new System.Windows.Forms.Button();
             this.ListBoxQuest = new System.Windows.Forms.ListBox();
             this.ButtonRefresh = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.GroupBoxMail = new System.Windows.Forms.GroupBox();
+            this.ButtonClearMail = new System.Windows.Forms.Button();
+            this.ButtonItemMain = new System.Windows.Forms.Button();
+            this.ButtonEquipments = new System.Windows.Forms.Button();
             this.SaveFileDialogMain = new System.Windows.Forms.SaveFileDialog();
-            this.ButtonPatch = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBoxID.SuspendLayout();
@@ -70,12 +75,15 @@
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.PanelQuest.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.GroupBoxMail.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -99,6 +107,16 @@
             this.tabPage1.Text = "设置";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // ButtonPatch
+            // 
+            this.ButtonPatch.Location = new System.Drawing.Point(82, 317);
+            this.ButtonPatch.Name = "ButtonPatch";
+            this.ButtonPatch.Size = new System.Drawing.Size(57, 26);
+            this.ButtonPatch.TabIndex = 12;
+            this.ButtonPatch.Text = "补丁";
+            this.ButtonPatch.UseVisualStyleBackColor = true;
+            this.ButtonPatch.Click += new System.EventHandler(this.ButtonPatch_Click);
+            // 
             // ButtonSaveRsaKey
             // 
             this.ButtonSaveRsaKey.Location = new System.Drawing.Point(6, 317);
@@ -117,7 +135,7 @@
             this.GroupBoxID.Controls.Add(this.label5);
             this.GroupBoxID.Controls.Add(this.ListBoxCharac);
             this.GroupBoxID.Controls.Add(this.ButtonRun);
-            this.GroupBoxID.Controls.Add(this.TextBoxUserId);
+            this.GroupBoxID.Controls.Add(this.TextBoxUserName);
             this.GroupBoxID.Enabled = false;
             this.GroupBoxID.Location = new System.Drawing.Point(6, 174);
             this.GroupBoxID.Name = "GroupBoxID";
@@ -187,13 +205,13 @@
             this.ButtonRun.UseVisualStyleBackColor = true;
             this.ButtonRun.Click += new System.EventHandler(this.ButtonRun_Click);
             // 
-            // TextBoxUserId
+            // TextBoxUserName
             // 
-            this.TextBoxUserId.Location = new System.Drawing.Point(41, 20);
-            this.TextBoxUserId.Name = "TextBoxUserId";
-            this.TextBoxUserId.Size = new System.Drawing.Size(117, 21);
-            this.TextBoxUserId.TabIndex = 7;
-            this.TextBoxUserId.TextChanged += new System.EventHandler(this.TextBoxUserId_TextChanged);
+            this.TextBoxUserName.Location = new System.Drawing.Point(41, 20);
+            this.TextBoxUserName.Name = "TextBoxUserName";
+            this.TextBoxUserName.Size = new System.Drawing.Size(117, 21);
+            this.TextBoxUserName.TabIndex = 7;
+            this.TextBoxUserName.TextChanged += new System.EventHandler(this.TextBoxUserId_TextChanged);
             // 
             // groupBox2
             // 
@@ -204,25 +222,25 @@
             this.groupBox2.Size = new System.Drawing.Size(231, 53);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "任务信息";
+            this.groupBox2.Text = "Pvf数据";
             // 
             // TextBoxQuestCount
             // 
             this.TextBoxQuestCount.Location = new System.Drawing.Point(10, 18);
             this.TextBoxQuestCount.Name = "TextBoxQuestCount";
             this.TextBoxQuestCount.ReadOnly = true;
-            this.TextBoxQuestCount.Size = new System.Drawing.Size(136, 21);
+            this.TextBoxQuestCount.Size = new System.Drawing.Size(159, 21);
             this.TextBoxQuestCount.TabIndex = 2;
             this.TextBoxQuestCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TextBoxQuestCount.TextChanged += new System.EventHandler(this.TextBoxQuestCount_TextChanged);
             // 
             // ButtonPvf
             // 
-            this.ButtonPvf.Location = new System.Drawing.Point(151, 14);
+            this.ButtonPvf.Location = new System.Drawing.Point(175, 14);
             this.ButtonPvf.Name = "ButtonPvf";
-            this.ButtonPvf.Size = new System.Drawing.Size(73, 27);
+            this.ButtonPvf.Size = new System.Drawing.Size(49, 27);
             this.ButtonPvf.TabIndex = 1;
-            this.ButtonPvf.Text = "从Pvf加载";
+            this.ButtonPvf.Text = "加载";
             this.ButtonPvf.UseVisualStyleBackColor = true;
             this.ButtonPvf.Click += new System.EventHandler(this.ButtonPvf_Click);
             // 
@@ -411,20 +429,62 @@
             this.ButtonRefresh.UseVisualStyleBackColor = true;
             this.ButtonRefresh.Click += new System.EventHandler(this.ButtonRefresh_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.GroupBoxMail);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(247, 349);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "其他";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // GroupBoxMail
+            // 
+            this.GroupBoxMail.Controls.Add(this.ButtonClearMail);
+            this.GroupBoxMail.Controls.Add(this.ButtonItemMain);
+            this.GroupBoxMail.Controls.Add(this.ButtonEquipments);
+            this.GroupBoxMail.Location = new System.Drawing.Point(8, 12);
+            this.GroupBoxMail.Name = "GroupBoxMail";
+            this.GroupBoxMail.Size = new System.Drawing.Size(231, 58);
+            this.GroupBoxMail.TabIndex = 4;
+            this.GroupBoxMail.TabStop = false;
+            this.GroupBoxMail.Text = "邮件";
+            // 
+            // ButtonClearMail
+            // 
+            this.ButtonClearMail.Location = new System.Drawing.Point(162, 20);
+            this.ButtonClearMail.Name = "ButtonClearMail";
+            this.ButtonClearMail.Size = new System.Drawing.Size(63, 27);
+            this.ButtonClearMail.TabIndex = 2;
+            this.ButtonClearMail.Text = "清除附件";
+            this.ButtonClearMail.UseVisualStyleBackColor = true;
+            this.ButtonClearMail.Click += new System.EventHandler(this.ButtonClearMail_Click);
+            // 
+            // ButtonItemMain
+            // 
+            this.ButtonItemMain.Location = new System.Drawing.Point(6, 20);
+            this.ButtonItemMain.Name = "ButtonItemMain";
+            this.ButtonItemMain.Size = new System.Drawing.Size(66, 27);
+            this.ButtonItemMain.TabIndex = 0;
+            this.ButtonItemMain.Text = "物品邮件";
+            this.ButtonItemMain.UseVisualStyleBackColor = true;
+            this.ButtonItemMain.Click += new System.EventHandler(this.ButtonItemMain_Click);
+            // 
+            // ButtonEquipments
+            // 
+            this.ButtonEquipments.Location = new System.Drawing.Point(78, 20);
+            this.ButtonEquipments.Name = "ButtonEquipments";
+            this.ButtonEquipments.Size = new System.Drawing.Size(70, 27);
+            this.ButtonEquipments.TabIndex = 1;
+            this.ButtonEquipments.Text = "装备邮件";
+            this.ButtonEquipments.UseVisualStyleBackColor = true;
+            this.ButtonEquipments.Click += new System.EventHandler(this.ButtonEquipments_Click);
+            // 
             // SaveFileDialogMain
             // 
             this.SaveFileDialogMain.FileName = "publickey.pem";
             this.SaveFileDialogMain.Filter = "密钥文件|*.pem";
-            // 
-            // ButtonPatch
-            // 
-            this.ButtonPatch.Location = new System.Drawing.Point(82, 317);
-            this.ButtonPatch.Name = "ButtonPatch";
-            this.ButtonPatch.Size = new System.Drawing.Size(57, 26);
-            this.ButtonPatch.TabIndex = 12;
-            this.ButtonPatch.Text = "补丁";
-            this.ButtonPatch.UseVisualStyleBackColor = true;
-            this.ButtonPatch.Click += new System.EventHandler(this.ButtonPatch_Click);
             // 
             // FormMain
             // 
@@ -450,6 +510,8 @@
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.PanelQuest.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.GroupBoxMail.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -473,7 +535,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button ButtonPvf;
         private System.Windows.Forms.GroupBox GroupBoxID;
-        private System.Windows.Forms.TextBox TextBoxUserId;
+        private System.Windows.Forms.TextBox TextBoxUserName;
         private System.Windows.Forms.Button ButtonRun;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox ListBoxCharac;
@@ -490,6 +552,11 @@
         private System.Windows.Forms.Button ButtonRefresh;
         private System.Windows.Forms.Button ButtonForceQuest;
         private System.Windows.Forms.Button ButtonPatch;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox GroupBoxMail;
+        private System.Windows.Forms.Button ButtonClearMail;
+        private System.Windows.Forms.Button ButtonItemMain;
+        private System.Windows.Forms.Button ButtonEquipments;
     }
 }
 

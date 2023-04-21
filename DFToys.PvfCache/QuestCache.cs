@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DFToys.PvfCache
 {
-    public sealed class QuestCache : IPvfCacheObject<QuestCache>
+    public sealed class QuestCache : IPvfDictCacheObject
     {
         private const string LABEL_QUEST_GIVE_ITEM = "[depend give item]";
         private const string LABEL_QUEST_TYPE = "[type]";

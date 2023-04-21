@@ -25,7 +25,7 @@ namespace DFToys.PvfCache
 
         private Dictionary<string, PvfFile> _fileDict;
         private string[] _stringTable;
-        private Dictionary<int, string> _stringFileDict;
+        private Dictionary<int, Dictionary<string, string>> _stringDict;
 
         public PvfCacheProvider(string pvfPath, Encoding fileEncoding, Encoding strEncoding)
         {
@@ -35,40 +35,214 @@ namespace DFToys.PvfCache
             PvfHeader headerInfo = GetHeaderInfo();
             _fileDict = GetFileInfoDict(headerInfo);
             _stringTable = CreateStringTable(_fileDict[NAME_STRING_TABLE]);
-            _stringFileDict = CreateList(_fileDict[NAME_STRING_DICT_LIST]);
+            _stringDict = CreateStringDict(_fileDict[NAME_STRING_DICT_LIST], _fileDict);
         }
 
-        public static Dictionary<int, TPvfObject> FromJson<TPvfObject>(string json)
-        {
-            return JsonSerializer.Deserialize<Dictionary<int, TPvfObject>>(json);
-        }
 
-        public static string ToJson<TPvfObject>(Dictionary<int, TPvfObject> cache)
-        {
-            return JsonSerializer.Serialize(cache);
-        }
 
         public Dictionary<int, QuestCache> TryCreateQuestCache()
         {
-            return TryCreateCache<QuestCache>("n_quest", "n_quest/quest.lst", "n_quest/quest.");
+            return TryCreateDictCache<QuestCache>("n_quest", "n_quest/quest.lst");
         }
 
-        public Dictionary<int, TPvfObject> TryCreateCache<TPvfObject>(string folder, string listPath, string strDictFlag)
-          where TPvfObject : IPvfCacheObject<TPvfObject>, new()
-        {
-            KeyValuePair<int, string> dictPath = _stringFileDict
-                .FirstOrDefault(
-                    d => d.Value.StartsWith(strDictFlag));
 
-            if (dictPath.Value == null)
-                throw new ArgumentException("未找到目标列表。");
-            Dictionary<string, string> strDict = CreateStrDict(_fileDict[dictPath.Value]);
-            return CreateCacheCore<TPvfObject>(folder, _fileDict[listPath], dictPath.Key, strDict);
+        public List<StackableItemCache<GameJobTable, GameItemTable>> TryCreateItemCache(
+            out KeyValuePair<string, string[]>[] indexDict)
+        {
+            List<StackableItemCache<GameJobTable, GameItemTable>> cacheList =
+                TryCreateListCache<StackableItemCache<GameJobTable, GameItemTable>>("stackable", "stackable/stackable.lst");
+
+            Dictionary<string, List<string>> t
+                = CreateItemCacheIndexDict(cacheList);
+           
+            indexDict = t.Select(
+                    d0 =>
+                    new KeyValuePair<string, string[]>(
+                        d0.Key,
+                        d0.Value
+                            .OrderBy(s => s, GameStringComparer.Instance).ToArray()
+                   )
+                ).OrderBy(x => x.Key, GameStringComparer.Instance).ToArray();
+
+            return cacheList;
         }
 
-        private Dictionary<int, TPvfObject> CreateCacheCore<TPvfObject>(string folder, PvfFile fInfo, int dictIndex, Dictionary<string, string> strDict)
-            where TPvfObject : IPvfCacheObject<TPvfObject>, new()
+
+        public List<EquipmentCache<GameJobTable, GameEquipmentTable>> TryCreateEquipmentCache(
+            out KeyValuePair<string, KeyValuePair<string, KeyValuePair<string, string[]>[]>[]>[] indexDict)
         {
+            List<EquipmentCache<GameJobTable, GameEquipmentTable>> cacheList =
+                TryCreateListCache<EquipmentCache<GameJobTable, GameEquipmentTable>>("equipment", "equipment/equipment.lst");
+
+            Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>> t
+                = CreateEqCacheIndexDict(cacheList);
+
+
+            indexDict = t.Select(
+                    d0 =>
+                    new KeyValuePair<string, KeyValuePair<string, KeyValuePair<string, string[]>[]>[]>(
+                        d0.Key,
+                        d0.Value.Select(
+                                d1 =>
+                                new KeyValuePair<string, KeyValuePair<string, string[]>[]>(
+                                    d1.Key,
+                                    d1.Value.Select(
+                                        d2 =>
+                                        new KeyValuePair<string, string[]>(
+                                            d2.Key,
+                                            d2.Value.OrderBy(
+                                                l => l, GameStringComparer.Instance).ToArray()))
+                                    .OrderBy(d3 => d3.Key, GameStringComparer.Instance).ToArray()))
+                                    .OrderBy(d4 => d4.Key, GameStringComparer.Instance).ToArray())
+                ).OrderBy(x => x.Key, GameStringComparer.Instance).ToArray();
+
+            return cacheList;
+        }
+
+        private Dictionary<string, List<string>> CreateItemCacheIndexDict(List<StackableItemCache<GameJobTable, GameItemTable>> cacheList)
+        {
+            var dict = new Dictionary<string, List<string>>();
+            StackableItemCache<GameJobTable, GameItemTable> cache;
+            for (int i = 0; i < cacheList.Count; i++)
+            {
+                cache = cacheList[i];
+                if (cache.UsableJob.Count == 0)
+                {
+                    UpdateItemCacheIndexDict(
+                        EquipmentCache<GameJobTable, GameEquipmentTable>.JobTable.AllowAllJobFriendlyName,
+                        dict,
+                        cache);
+                }
+                else
+                {
+                    for (int j = 0; j < cache.UsableJob.Count; j++)
+                    {
+                        UpdateItemCacheIndexDict(
+                          cache.UsableJob[j],
+                          dict,
+                          cache);
+                    }
+                }
+            }
+            return dict;
+        }
+
+        private Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>
+                CreateEqCacheIndexDict(List<EquipmentCache<GameJobTable, GameEquipmentTable>> cacheList)
+        {
+            var dict = new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>();
+            EquipmentCache<GameJobTable, GameEquipmentTable> cache;
+            for (int i = 0; i < cacheList.Count; i++)
+            {
+                cache = cacheList[i];
+                if (cache.UsableJob.Count == 0)
+                {
+                    UpdateEqCacheIndexDict(
+                        EquipmentCache<GameJobTable, GameEquipmentTable>.JobTable.AllowAllJobFriendlyName,
+                        dict,
+                        cache);
+                }
+                else
+                {
+                    for (int j = 0; j < cache.UsableJob.Count; j++)
+                    {
+                        UpdateEqCacheIndexDict(
+                          cache.UsableJob[j],
+                          dict,
+                          cache);
+                    }
+                }
+            }
+            return dict;
+        }
+
+
+        private void UpdateItemCacheIndexDict(
+                string jobName,
+                Dictionary<string, List<string>> dict,
+                StackableItemCache<GameJobTable, GameItemTable> cache)
+        {
+            if (jobName == EquipmentCache<GameJobTable, GameEquipmentTable>.JobTable.AllowAllJobFriendlyName)
+            {
+                foreach (var item in EquipmentCache<GameJobTable, GameEquipmentTable>.JobTable.Jobs)
+                {
+                    UpdateItemCacheIndexDict(item, dict, cache);
+                }
+                return;
+            }
+
+            if (!dict.TryGetValue(
+                        jobName,
+                        out List<string> value))
+            {
+                value = new List<string> { cache.ItemType };
+
+                dict.Add(jobName, value);
+            }
+            else if (!value.Contains(cache.ItemType))
+            {
+                value.Add(cache.ItemType);
+            }
+        }
+
+
+        private void UpdateEqCacheIndexDict(
+            string jobName,
+            Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>> dict,
+            EquipmentCache<GameJobTable, GameEquipmentTable> cache)
+        {
+            if (jobName == EquipmentCache<GameJobTable, GameEquipmentTable>.JobTable.AllowAllJobFriendlyName)
+            {
+                foreach (var item in EquipmentCache<GameJobTable, GameEquipmentTable>.JobTable.Jobs)
+                {
+                    UpdateEqCacheIndexDict(item, dict, cache);
+                }
+                return;
+            }
+
+            if (!dict.TryGetValue(
+                        jobName,
+                        out Dictionary<string, Dictionary<string, List<string>>> value0))
+            {
+                value0 = new Dictionary<string, Dictionary<string, List<string>>>
+                {
+                    { cache.MainType, new Dictionary<string, List<string>>() }
+                };
+                dict.Add(jobName, value0);
+            }
+
+            if (cache.SubType1 != null)
+            {
+                if (!value0.TryGetValue(cache.MainType, out Dictionary<string, List<string>> value1))
+                {
+                    value1 = new Dictionary<string, List<string>>
+                    {
+                        { cache.SubType1, new List<string>() }
+                    };
+                    value0.Add(cache.MainType, value1);
+                }
+
+                if (!value1.TryGetValue(cache.SubType1, out List<string> value2))
+                {
+                    value2 = new List<string>();
+                    value1.Add(cache.SubType1, value2);
+                }
+
+                if (cache.SubType2 != null && !value2.Contains(cache.SubType2))
+                {
+                    value2.Add(cache.SubType2);
+                }
+
+            }
+
+        }
+
+
+        public Dictionary<int, TPvfObject> TryCreateDictCache<TPvfObject>(string folder, string listPath)
+            where TPvfObject : IPvfDictCacheObject, new()
+        {
+            var fInfo = _fileDict[listPath];
+
             BytesBuffer buffer = BytesBuffer.CreateAndDecodeFromStream(_stream, fInfo, fInfo.SeekPos);
             int dictLen = (fInfo.FileLength - 2) / 10;
             var dict = new Dictionary<int, TPvfObject>(dictLen);
@@ -82,14 +256,9 @@ namespace DFToys.PvfCache
                     {
                         dict.Add(
                            dictPathInfo.Key,
-                           GetPvfObject<TPvfObject>(
-                               pvfInfo,
-                               dictIndex,
-                               strDict
-                           ));
+                           GetPvfObject<TPvfObject>(pvfInfo)
+                           );
                     }
-
-
                 });
                 return dict;
             }
@@ -99,14 +268,58 @@ namespace DFToys.PvfCache
             }
         }
 
-        private TPvfObject GetPvfObject<TPvfObject>(PvfFile fInfo, int strDictIndex, Dictionary<string, string> strDict)
-            where TPvfObject : IPvfCacheObject<TPvfObject>, new()
+        public List<TPvfObject> TryCreateListCache<TPvfObject>(string folder, string listPath)
+                where TPvfObject : PvfListCacheObject, new()
+        {
+
+            var fInfo = _fileDict[listPath];
+
+            BytesBuffer buffer = BytesBuffer.CreateAndDecodeFromStream(_stream, fInfo, fInfo.SeekPos);
+            int objectLen = (fInfo.FileLength - 2) / 10;
+            var objects = new List<TPvfObject>(objectLen);
+            byte[] tbuf = buffer.Buffer;
+            try
+            {
+                Parallel.For(0, objectLen, i =>
+                {
+                    KeyValuePair<int, string> dictPathInfo = GetListItem(tbuf, i, _stringTable);
+                    if (_fileDict.TryGetValue($"{folder}/{dictPathInfo.Value}", out PvfFile pvfInfo))
+                    {
+                        objects.Add(
+                           GetPvfObject<TPvfObject>(
+                               pvfInfo,
+                               dictPathInfo.Key
+                           ));
+                    }
+                });
+                return objects;
+            }
+            finally
+            {
+                buffer.Dispose();
+            }
+
+        }
+
+        private TPvfObject GetPvfObject<TPvfObject>(PvfFile fInfo)
+            where TPvfObject : IPvfDictCacheObject, new()
         {
             BytesBuffer buffer = BytesBuffer.CreateAndDecodeFromStream(_stream, fInfo, fInfo.SeekPos, true);
             int tokenCount = (fInfo.FileLength - 2) / 5;
-            var reader = new PvfObjectReader(buffer.Buffer, tokenCount, _stringTable, strDict, strDictIndex);
+            var reader = new PvfObjectReader(buffer.Buffer, tokenCount, _stringTable, _stringDict);
             var obj = new TPvfObject();
             obj.Initialize(reader);
+            return obj;
+        }
+
+        private TPvfObject GetPvfObject<TPvfObject>(PvfFile fInfo, int objectIndex)
+            where TPvfObject : PvfListCacheObject, new()
+        {
+            BytesBuffer buffer = BytesBuffer.CreateAndDecodeFromStream(_stream, fInfo, fInfo.SeekPos, true);
+            int tokenCount = (fInfo.FileLength - 2) / 5;
+            var reader = new PvfObjectReader(buffer.Buffer, tokenCount, _stringTable, _stringDict);
+            var obj = new TPvfObject();
+            obj.Initialize(objectIndex, reader);
             return obj;
         }
 
@@ -203,6 +416,28 @@ namespace DFToys.PvfCache
             }
         }
 
+
+        private Dictionary<int, Dictionary<string, string>> CreateStringDict(PvfFile fInfo, Dictionary<string, PvfFile> fileDict)
+        {
+            BytesBuffer buffer = BytesBuffer.CreateAndDecodeFromStream(_stream, fInfo, fInfo.SeekPos);
+            int dictLen = (fInfo.FileLength - 2) / 10;
+            var dict = new Dictionary<int, Dictionary<string, string>>(dictLen);
+            byte[] tbuf = buffer.Buffer;
+            try
+            {
+                Parallel.For(0, dictLen, i =>
+                {
+                    KeyValuePair<int, string> dictPathInfo = GetListItem(tbuf, i, _stringTable);
+                    dict.Add(dictPathInfo.Key, CreateStrDictCore(fileDict[dictPathInfo.Value]));
+                });
+                return dict;
+            }
+            finally
+            {
+                buffer.Dispose();
+            }
+        }
+
         private static KeyValuePair<int, string> GetListItem(byte[] buffer, int idx, string[] strTable)
         {
             if (buffer.Get<byte>(idx * 10 + 2) != 2 || buffer.Get<byte>(idx * 10 + 7) != 7)
@@ -220,7 +455,7 @@ namespace DFToys.PvfCache
                 _stream.Dispose();
                 _fileDict = null;
                 _stringTable = null;
-                _stringFileDict = null;
+                _stringDict = null;
                 _stream = null;
             }
             GC.SuppressFinalize(this);

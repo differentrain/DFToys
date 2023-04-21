@@ -2,8 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Forms;
 
 namespace DFToys
@@ -42,6 +48,13 @@ namespace DFToys
 
         public Dictionary<int, QuestCache> QuestCache { get; private set; }
 
+        public List<EquipmentCache<GameJobTable, GameEquipmentTable>> EquipmentCache { get; private set; }
+
+        public List<StackableItemCache<GameJobTable, GameItemTable>> ItemCache { get; private set; }
+
+        public KeyValuePair<string, KeyValuePair<string, KeyValuePair<string, string[]>[]>[]>[] EquipmentIndexCache { get; private set; }
+
+        public KeyValuePair<string, string[]>[] ItemIndexCache { get; private set; }
 
         private void FormPvf_Shown(object sender, EventArgs e)
         {
@@ -67,7 +80,13 @@ namespace DFToys
                     ComboBoxStr.SelectedItem as EncodingWapper);
                 QuestCache = cp.TryCreateQuestCache();
 
-                if (MessageBox.Show(this, $"共加载 {QuestCache.Count} 条任务信息。", "加载成功", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                EquipmentCache = cp.TryCreateEquipmentCache(
+                    out KeyValuePair<string, KeyValuePair<string, KeyValuePair<string, string[]>[]>[]>[] equipmentIndexCache);
+                ItemCache = cp.TryCreateItemCache(out KeyValuePair<string, string[]>[] itemIndexCache);
+                EquipmentIndexCache = equipmentIndexCache;
+                ItemIndexCache = itemIndexCache;
+ 
+                if (MessageBox.Show(this, $"任务:{QuestCache.Count};物品:{ItemCache.Count};装备:{EquipmentCache.Count}", "加载成功", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     DialogResult = DialogResult.OK;
                     Hide();
@@ -77,6 +96,8 @@ namespace DFToys
                     DialogResult = DialogResult.Cancel;
                     Hide();
                 }
+
+
 
             }
             catch (Exception exc)

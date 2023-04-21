@@ -1,6 +1,8 @@
-﻿using DFToys.PvfCache.Internals;
+﻿using DFToys.Common;
+using DFToys.PvfCache.Internals;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace DFToys.PvfCache
@@ -10,17 +12,16 @@ namespace DFToys.PvfCache
         private readonly byte[] _buf;
         private readonly int _tokenCount;
         private readonly string[] _strTab;
-        private readonly Dictionary<string, string> _strDict;
+        private readonly Dictionary<int, Dictionary<string, string>> _strDict;
 
         private int _index = -1;
 
-        internal PvfObjectReader(byte[] buf, int tokenCount, string[] strTab, Dictionary<string, string> strDict, int dictIndex)
+        internal PvfObjectReader(byte[] buf, int tokenCount, string[] strTab, Dictionary<int, Dictionary<string, string>> strDict)
         {
             _buf = buf;
             _tokenCount = tokenCount;
             _strTab = strTab;
             _strDict = strDict;
-            StrDictIndex = dictIndex;
         }
 
         public int StrDictIndex { get; }
@@ -41,7 +42,7 @@ namespace DFToys.PvfCache
         {
             if (Unsafe.SizeOf<T>() > 4)
                 throw new ArgumentException();
-            var i = _index - 1;
+            int i = _index - 1;
             if (i < 0)
                 throw new InvalidOperationException();
             return _buf.Get<T>(i * 5 + 3);
@@ -50,26 +51,34 @@ namespace DFToys.PvfCache
 
         public string TryGetString()
         {
+            if (_index < 0)
+                throw new InvalidOperationException();
+            var idx = _buf.Get<int>(_index * 5 + 3);
 
-            var str = TryGetStringFromTable(GetValue<int>());
-            if (str == null)
-                return str;
-            return Token == 10 ? TryGetStringFromDict(str) : str;
+            if (idx >= _strTab.Length)
+                return null;
+
+            string str = _strTab[idx];
+
+            string chs;
+
+            if (Token != 10)
+                return str.TryGetChsString(out chs) ? chs : str;
+
+            int i = _index - 1;
+
+            if (i < 0)
+                throw new InvalidOperationException();
+
+            return _strDict.TryGetValue(_buf.Get<int>(i * 5 + 3), out Dictionary<string, string> dict) &&
+                   dict.TryGetValue(str, out str) ?
+                    str.TryGetChsString(out chs) ? chs : str :
+                    null;
+
         }
 
 
-        public string TryGetStringFromTable(int index)
-        {
-            return index < _strTab.Length ? _strTab[index] : null;
-        }
 
-
-        public string TryGetStringFromDict(string key)
-        {
-            return _strDict.TryGetValue(key, out string ret) ?
-                        ret :
-                        null;
-        }
 
         public bool Read()
         {
