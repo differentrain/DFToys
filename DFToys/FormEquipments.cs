@@ -246,6 +246,7 @@ namespace DFToys
             {
                 int t = ComboBoxAO.SelectedIndex < 0 ? 0 : ComboBoxAO.SelectedIndex;
                 FormMain.GameDb.SendLetter<DefaultDbStringConvert, GameJobTable, GameEquipmentTable>(FormMain.GameCharac.Id, "DfToys", "Item", item, t, (int)NumericUpDownA.Value, (int)NumericUpDownSS.Value, (int)NumericUpDownS.Value);
+                ButtonSend.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -257,6 +258,14 @@ namespace DFToys
         private void TextBoxMaxLv_TextChanged(object sender, EventArgs e)
         {
             CheckButtonSearch();
+        }
+
+        private void TextBoxName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return && ButtonSearch.Enabled)
+            {
+                ButtonSearch.PerformClick();
+            }
         }
     }
 }

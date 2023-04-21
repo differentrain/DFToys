@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEquipments));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TextBoxMaxLv = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.CheckBoxSuit = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
             this.TextBoxAntiE = new System.Windows.Forms.TextBox();
@@ -53,6 +55,7 @@
             this.ColumnHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderRarity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderMinLv = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnHeaderMaxLv = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderAntiE = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderSuit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -66,9 +69,6 @@
             this.ButtonSend = new System.Windows.Forms.Button();
             this.NumericUpDownSS = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
-            this.TextBoxMaxLv = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.ColumnHeaderMaxLv = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownA)).BeginInit();
@@ -104,6 +104,24 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "筛选器";
+            // 
+            // TextBoxMaxLv
+            // 
+            this.TextBoxMaxLv.Location = new System.Drawing.Point(101, 206);
+            this.TextBoxMaxLv.MaxLength = 3;
+            this.TextBoxMaxLv.Name = "TextBoxMaxLv";
+            this.TextBoxMaxLv.Size = new System.Drawing.Size(29, 21);
+            this.TextBoxMaxLv.TabIndex = 23;
+            this.TextBoxMaxLv.TextChanged += new System.EventHandler(this.TextBoxMaxLv_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(84, 209);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(11, 12);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "-";
             // 
             // CheckBoxSuit
             // 
@@ -196,7 +214,7 @@
             // 
             this.ButtonSearch.Location = new System.Drawing.Point(45, 257);
             this.ButtonSearch.Name = "ButtonSearch";
-            this.ButtonSearch.Size = new System.Drawing.Size(65, 23);
+            this.ButtonSearch.Size = new System.Drawing.Size(104, 23);
             this.ButtonSearch.TabIndex = 13;
             this.ButtonSearch.Text = "搜索";
             this.ButtonSearch.UseVisualStyleBackColor = true;
@@ -218,6 +236,7 @@
             this.TextBoxName.Name = "TextBoxName";
             this.TextBoxName.Size = new System.Drawing.Size(100, 21);
             this.TextBoxName.TabIndex = 11;
+            this.TextBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxName_KeyPress);
             // 
             // label5
             // 
@@ -336,6 +355,11 @@
             // 
             this.ColumnHeaderMinLv.Text = "lvn";
             this.ColumnHeaderMinLv.Width = 40;
+            // 
+            // ColumnHeaderMaxLv
+            // 
+            this.ColumnHeaderMaxLv.Text = "lvx";
+            this.ColumnHeaderMaxLv.Width = 45;
             // 
             // ColumnHeaderAntiE
             // 
@@ -461,29 +485,6 @@
             this.label6.Size = new System.Drawing.Size(29, 12);
             this.label6.TabIndex = 3;
             this.label6.Text = "强化";
-            // 
-            // TextBoxMaxLv
-            // 
-            this.TextBoxMaxLv.Location = new System.Drawing.Point(101, 206);
-            this.TextBoxMaxLv.MaxLength = 3;
-            this.TextBoxMaxLv.Name = "TextBoxMaxLv";
-            this.TextBoxMaxLv.Size = new System.Drawing.Size(29, 21);
-            this.TextBoxMaxLv.TabIndex = 23;
-            this.TextBoxMaxLv.TextChanged += new System.EventHandler(this.TextBoxMaxLv_TextChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(84, 209);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(11, 12);
-            this.label10.TabIndex = 22;
-            this.label10.Text = "-";
-            // 
-            // ColumnHeaderMaxLv
-            // 
-            this.ColumnHeaderMaxLv.Text = "lvx";
-            this.ColumnHeaderMaxLv.Width = 45;
             // 
             // FormEquipments
             // 

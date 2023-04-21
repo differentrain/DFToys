@@ -187,13 +187,21 @@ namespace DFToys
             try
             {
                 FormMain.GameDb.SendLetter<DefaultDbStringConvert>(FormMain.GameCharac.Id, "DfToys", "Item", new GameItem((uint)item.Id, (uint)NumericUpDownCount.Value));
-
+                ButtonSend.Enabled = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"发送失败");
+                MessageBox.Show(ex.Message, "发送失败");
             }
 
+        }
+
+        private void TextBoxName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return && ButtonSearch.Enabled)
+            {
+                ButtonSearch.PerformClick();
+            }
         }
     }
 }

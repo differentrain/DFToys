@@ -212,6 +212,7 @@
             this.TextBoxName.Name = "TextBoxName";
             this.TextBoxName.Size = new System.Drawing.Size(100, 21);
             this.TextBoxName.TabIndex = 11;
+            this.TextBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxName_KeyPress);
             // 
             // label5
             // 
