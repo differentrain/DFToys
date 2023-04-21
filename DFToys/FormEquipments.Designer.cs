@@ -98,7 +98,7 @@
             this.groupBox1.Controls.Add(this.ComboBoxJob);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.TextBoxMinLv);
-            this.groupBox1.Location = new System.Drawing.Point(1, 2);
+            this.groupBox1.Location = new System.Drawing.Point(1, 104);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(158, 286);
             this.groupBox1.TabIndex = 11;
@@ -391,7 +391,7 @@
             this.groupBox2.Controls.Add(this.ButtonSend);
             this.groupBox2.Controls.Add(this.NumericUpDownSS);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(1, 288);
+            this.groupBox2.Location = new System.Drawing.Point(1, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(158, 102);
             this.groupBox2.TabIndex = 16;

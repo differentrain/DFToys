@@ -150,7 +150,7 @@
             this.groupBox1.Controls.Add(this.TextBoxMaxLv);
             this.groupBox1.Controls.Add(this.TextBoxMinLv);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(2, 3);
+            this.groupBox1.Location = new System.Drawing.Point(2, 86);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(158, 217);
             this.groupBox1.TabIndex = 10;
@@ -228,7 +228,7 @@
             this.groupBox2.Controls.Add(this.ButtonSend);
             this.groupBox2.Controls.Add(this.NumericUpDownCount);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(2, 226);
+            this.groupBox2.Location = new System.Drawing.Point(2, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(158, 77);
             this.groupBox2.TabIndex = 11;
