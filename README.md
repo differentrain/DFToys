@@ -19,18 +19,9 @@ DFToys 需要 .NET Frameworks 4.8。
 
 ## Pvf读取
 
-Pvf读取用于获取游戏中的任务名称。
-
-如未加载任务信息，或者读取失败，则无法显示任务名称，也不能指定要完成的任务，只能批量完成。
+Pvf读取用于获取游戏中的任务和物品信息。
 
 首次加载 `Script.pvf` 文件会占用大量的内存，之后程序会直接加载缓存，所以建议加载一次pvf后，退出程序再次运行。
-
-当前仅实现了最基础的读取功能，如果想要对其进行扩展，可以实现 `DFToys.PvfCache` 项目的 `IPvfCacheObject<TSelf>` 接口，并将其作为 `PvfCacheProvider` 的 `Dictionary<int, TPvfObject> TryCreateCache<TPvfObject>(string folder, string listPath, string strDictFlag)` 方法的泛型参数进行调用。在此方法的参数定义如下：
-
-- TPvfObject - 实现了 `IPvfCacheObject<TSelf>` 接口的类型
-- folder - 目标目录，例如任务信息目录是 `n_quest`
-- listPath - 目标索引文件，任务信息的索引文件为 `"n_quest/quest.lst`
-- strDictFlag - 目标中文本的字典标志。文本字典索引位于 `n_string.lst` 中，此标志用于在文本字典索引中寻找其路径。对于任务来说，合适的标志是 `n_quest/quest.`
 
 ## 服务端补丁
 
@@ -44,8 +35,6 @@ Pvf读取用于获取游戏中的任务名称。
 
 在1.0.3之前的版本中，存在数据库乱码的问题。这是因为MySQL的默认编码是latin1，对应Windows代码页1252。
 
-于是在更新中，为 `DFToys.Abstract.SingletonRecordCreator` 抽象类添加了 `string GetStringFromSqlString(string sqlString)` 方法，用以完成字符串的转换。
-
-如依然有乱码问题，应当检查服务器中的MySQL编码配置，它通常位于 `/etc/my.cnt` 文件中，并重写 `string GetStringFromSqlString(string sqlString)` 方法。
+此问题在后续版本中已经解决，如依然有乱码问题，应当检查服务器中的MySQL编码配置，它通常位于 `/etc/my.cnt` 文件中，并重写 `string GetStringFromSqlString(string sqlString)` 方法。
 
 另外，根据规范，cp1252中，以下字符属于未定义：`0x81`, `0x8D`, `0x8F`, `0x90`, `0x9D`. 而MySQL所实现的latin1，会将这五个字符映射为Unicode16编码。但在实际测试中，.NET Frameworks的Encoding可以自动完成此映射操作，无需特殊处理。
