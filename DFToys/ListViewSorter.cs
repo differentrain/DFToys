@@ -15,7 +15,7 @@ namespace DFToys
         {
             var a = (x as ListViewItem).SubItems[ColumnToSort].Text;
             var b = (y as ListViewItem).SubItems[ColumnToSort].Text;
-            return a.CompareTo(b);
+            return int.TryParse(a, out var i) && int.TryParse(b, out var j) ? i.CompareTo(j) : a.CompareTo(b);
         }
     }
 

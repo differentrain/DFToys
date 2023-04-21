@@ -12,9 +12,7 @@ namespace DFToys.PvfCache
         public static readonly TItemType ItemTable = new TItemType();
 
         private int _state = 0;
-
-        [JsonInclude]
-        public int? MaxLevel { get; private set; }
+ 
 
         [JsonInclude]
         public int? StackLimit { get; private set; }
@@ -31,14 +29,11 @@ namespace DFToys.PvfCache
         {
             switch (lable)
             {
-                case "[maximum level]":
+                case "[stackable type]":
                     _state = 1;
                     return true;
-                case "[stackable type]":
-                    _state = 2;
-                    return true;
                 case "[stack limit]":
-                    _state = 3;
+                    _state = 2;
                     return true;
                 default:
                     _state = 0;
@@ -50,9 +45,7 @@ namespace DFToys.PvfCache
 
         protected override bool SetIntValue(int value)
         {
-            if (_state == 1)
-                MaxLevel = value;
-            else if (_state == 3)
+           if (_state == 2)
                 StackLimit = value;
             _state = 0;
             return true;
@@ -60,7 +53,7 @@ namespace DFToys.PvfCache
 
         protected override bool SetStringValue(string value)
         {
-            if (_state == 2)
+            if (_state == 1)
             {
                 ItemType = ItemTable.GetItemTypeFriendlyName(value);
             }

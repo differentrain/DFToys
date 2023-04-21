@@ -112,15 +112,16 @@ namespace DFToys
 
             }
 
-            if (!string.IsNullOrWhiteSpace(TextBoxMinLv.Text) && byte.TryParse(TextBoxMinLv.Text, out byte min) && min > 0)
+            if (!string.IsNullOrWhiteSpace(TextBoxMinLv.Text) && byte.TryParse(TextBoxMinLv.Text, out byte min) && min > 1)
             {
-                t = t.Where(c => c.MinLevel.HasValue && c.MinLevel.Value >= min);
+                t = t.Where(c => (c.MinLevel.HasValue && c.MinLevel.Value >= min) && (!c.MaxLevel.HasValue || c.MaxLevel >= min));
             }
 
             if (!string.IsNullOrWhiteSpace(TextBoxMaxLv.Text) && byte.TryParse(TextBoxMaxLv.Text, out byte max))
             {
-                t = t.Where(c => c.MaxLevel.HasValue && c.MaxLevel.Value <= max);
+                t = t.Where(c => (!c.MaxLevel.HasValue || c.MaxLevel.Value <= max) && (!c.MinLevel.HasValue || c.MinLevel <= max));
             }
+
             ListViewItems.SelectedItems.Clear();
             ButtonSend.Enabled = false;
             ListViewItems.Items.Clear();

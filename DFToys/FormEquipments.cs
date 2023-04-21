@@ -99,8 +99,9 @@ namespace DFToys
         private void CheckButtonSearch()
         {
             ButtonSearch.Enabled = ComboBoxJob.SelectedIndex >= 0 &&
-                (string.IsNullOrWhiteSpace(TextBoxMinLv.Text) || byte.TryParse(TextBoxMinLv.Text, out _) &&
-                 string.IsNullOrEmpty(TextBoxAntiE.Text) || byte.TryParse(TextBoxAntiE.Text, out _));
+                (string.IsNullOrWhiteSpace(TextBoxMinLv.Text) || byte.TryParse(TextBoxMinLv.Text, out _)) &&
+                 (string.IsNullOrWhiteSpace(TextBoxMaxLv.Text) || byte.TryParse(TextBoxMaxLv.Text, out _)) &&
+                 (string.IsNullOrEmpty(TextBoxAntiE.Text) || byte.TryParse(TextBoxAntiE.Text, out _));
         }
 
         private void ButtonSearch_Click(object sender, EventArgs e)
@@ -162,9 +163,14 @@ namespace DFToys
                 t = t.Where(c => c.AntiEvil.HasValue && c.AntiEvil.Value >= antiE);
             }
 
-            if (!string.IsNullOrWhiteSpace(TextBoxMinLv.Text) && byte.TryParse(TextBoxMinLv.Text, out byte min) && min >= 0)
+            if (!string.IsNullOrWhiteSpace(TextBoxMinLv.Text) && byte.TryParse(TextBoxMinLv.Text, out byte min) && min > 1)
             {
-                t = t.Where(c => c.MinLevel.HasValue && c.MinLevel.Value >= min);
+                t = t.Where(c => (c.MinLevel.HasValue && c.MinLevel.Value >= min) && (!c.MaxLevel.HasValue || c.MaxLevel >= min));
+            }
+
+            if (!string.IsNullOrWhiteSpace(TextBoxMaxLv.Text) && byte.TryParse(TextBoxMaxLv.Text, out byte max))
+            {
+                t = t.Where(c => (!c.MaxLevel.HasValue || c.MaxLevel.Value <= max) && (!c.MinLevel.HasValue || c.MinLevel <= max));
             }
 
             if (CheckBoxSuit.CheckState == CheckState.Checked)
@@ -187,6 +193,7 @@ namespace DFToys
                             c.Id.ToString(),
                             c.RarityString,
                             c.MinLevel.ToString(),
+                            c.MaxLevel.ToString(),
                             c.AntiEvil?.ToString(),
                             c.FullType,
                             c.IsSuit.ToString(),
@@ -204,7 +211,7 @@ namespace DFToys
             if (ListViewEquipments.SelectedItems.Count > 0)
             {
                 ListViewItem sel = ListViewEquipments.SelectedItems[0];
-       
+
                 var item = sel.Tag as EquipmentCache<GameJobTable, GameEquipmentTable>;
                 TextBoxRaw.Text = item.RawData;
                 ButtonSend.Enabled = true;
@@ -245,6 +252,11 @@ namespace DFToys
                 MessageBox.Show(ex.Message, "发送失败");
             }
 
+        }
+
+        private void TextBoxMaxLv_TextChanged(object sender, EventArgs e)
+        {
+            CheckButtonSearch();
         }
     }
 }

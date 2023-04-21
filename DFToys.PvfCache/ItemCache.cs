@@ -25,6 +25,9 @@ namespace DFToys.PvfCache
         public int? MinLevel { get; private set; }
 
         [JsonInclude]
+        public int? MaxLevel { get; private set; }
+
+        [JsonInclude]
         public List<string> UsableJob { get; private set; } = new List<string>();
 
         [JsonInclude]
@@ -152,10 +155,12 @@ namespace DFToys.PvfCache
                     return 3;
                 case "[usable job]":
                     return 4;
+                case "[maximum level]":
+                    return 5;
                 default:
                     if (string.IsNullOrWhiteSpace(label))
                         return 0;
-                    return IsUsefullyLable(label) ? 5 : 0;
+                    return IsUsefullyLable(label) ? 6 : 0;
             }
         }
 
@@ -169,20 +174,23 @@ namespace DFToys.PvfCache
                 case 3:
                     MinLevel = value;
                     return 0;
+                case 5:
+                    MaxLevel = value;
+                    return 0;
                 case 0:
                 case 1:
                 case 4:
                     return 0;
-                default: //5
-                    return SetIntValue(value) ? 0 : 5;
+                default: //6
+                    return SetIntValue(value) ? 0 : 6;
             }
         }
 
         private int ProcessFloatValue(int state, float value)
         {
-            if (state == 5)
+            if (state == 6)
             {
-                return SetFloatValue(value) ? 0 : 5;
+                return SetFloatValue(value) ? 0 : 6;
             }
             else
             {
@@ -203,9 +211,10 @@ namespace DFToys.PvfCache
                 case 0:
                 case 2:
                 case 3:
+                case 5:
                     return 0;
-                default: //5
-                    return SetStringValue(value) ? 0 : 5;
+                default: //6
+                    return SetStringValue(value) ? 0 : 6;
             }
         }
 

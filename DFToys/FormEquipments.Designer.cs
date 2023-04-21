@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEquipments));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CheckBoxSuit = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.TextBoxAntiE = new System.Windows.Forms.TextBox();
             this.ComboBoxSubType2 = new System.Windows.Forms.ComboBox();
             this.ComboBoxSubType1 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -52,6 +55,7 @@
             this.ColumnHeaderMinLv = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderAntiE = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnHeaderSuit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ComboBoxAO = new System.Windows.Forms.ComboBox();
@@ -62,10 +66,9 @@
             this.ButtonSend = new System.Windows.Forms.Button();
             this.NumericUpDownSS = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.TextBoxAntiE = new System.Windows.Forms.TextBox();
-            this.CheckBoxSuit = new System.Windows.Forms.CheckBox();
-            this.ColumnHeaderSuit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TextBoxMaxLv = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.ColumnHeaderMaxLv = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownA)).BeginInit();
@@ -75,6 +78,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.TextBoxMaxLv);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.CheckBoxSuit);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.TextBoxAntiE);
@@ -95,10 +100,40 @@
             this.groupBox1.Controls.Add(this.TextBoxMinLv);
             this.groupBox1.Location = new System.Drawing.Point(1, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(158, 265);
+            this.groupBox1.Size = new System.Drawing.Size(158, 286);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "筛选器";
+            // 
+            // CheckBoxSuit
+            // 
+            this.CheckBoxSuit.AutoSize = true;
+            this.CheckBoxSuit.Checked = true;
+            this.CheckBoxSuit.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.CheckBoxSuit.Location = new System.Drawing.Point(86, 236);
+            this.CheckBoxSuit.Name = "CheckBoxSuit";
+            this.CheckBoxSuit.Size = new System.Drawing.Size(48, 16);
+            this.CheckBoxSuit.TabIndex = 21;
+            this.CheckBoxSuit.Text = "套装";
+            this.CheckBoxSuit.ThreeState = true;
+            this.CheckBoxSuit.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 234);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(29, 12);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "抗魔";
+            // 
+            // TextBoxAntiE
+            // 
+            this.TextBoxAntiE.Location = new System.Drawing.Point(49, 231);
+            this.TextBoxAntiE.MaxLength = 3;
+            this.TextBoxAntiE.Name = "TextBoxAntiE";
+            this.TextBoxAntiE.Size = new System.Drawing.Size(29, 21);
+            this.TextBoxAntiE.TabIndex = 20;
             // 
             // ComboBoxSubType2
             // 
@@ -159,7 +194,7 @@
             // 
             // ButtonSearch
             // 
-            this.ButtonSearch.Location = new System.Drawing.Point(84, 236);
+            this.ButtonSearch.Location = new System.Drawing.Point(45, 257);
             this.ButtonSearch.Name = "ButtonSearch";
             this.ButtonSearch.Size = new System.Drawing.Size(65, 23);
             this.ButtonSearch.TabIndex = 13;
@@ -258,7 +293,7 @@
             this.TextBoxRaw.Name = "TextBoxRaw";
             this.TextBoxRaw.ReadOnly = true;
             this.TextBoxRaw.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBoxRaw.Size = new System.Drawing.Size(301, 373);
+            this.TextBoxRaw.Size = new System.Drawing.Size(348, 382);
             this.TextBoxRaw.TabIndex = 14;
             // 
             // ListViewEquipments
@@ -270,16 +305,17 @@
             this.ColumnHeaderId,
             this.ColumnHeaderRarity,
             this.ColumnHeaderMinLv,
+            this.ColumnHeaderMaxLv,
             this.ColumnHeaderAntiE,
             this.ColumnHeaderType,
             this.ColumnHeaderSuit,
             this.ColumnHeaderName});
             this.ListViewEquipments.FullRowSelect = true;
             this.ListViewEquipments.HideSelection = false;
-            this.ListViewEquipments.Location = new System.Drawing.Point(1, 381);
+            this.ListViewEquipments.Location = new System.Drawing.Point(1, 396);
             this.ListViewEquipments.MultiSelect = false;
             this.ListViewEquipments.Name = "ListViewEquipments";
-            this.ListViewEquipments.Size = new System.Drawing.Size(465, 137);
+            this.ListViewEquipments.Size = new System.Drawing.Size(512, 122);
             this.ListViewEquipments.TabIndex = 15;
             this.ListViewEquipments.UseCompatibleStateImageBehavior = false;
             this.ListViewEquipments.View = System.Windows.Forms.View.Details;
@@ -298,18 +334,23 @@
             // 
             // ColumnHeaderMinLv
             // 
-            this.ColumnHeaderMinLv.Text = "等级";
+            this.ColumnHeaderMinLv.Text = "lvn";
             this.ColumnHeaderMinLv.Width = 40;
             // 
             // ColumnHeaderAntiE
             // 
             this.ColumnHeaderAntiE.Text = "抗魔";
-            this.ColumnHeaderAntiE.Width = 66;
+            this.ColumnHeaderAntiE.Width = 43;
             // 
             // ColumnHeaderType
             // 
             this.ColumnHeaderType.Text = "类型";
             this.ColumnHeaderType.Width = 87;
+            // 
+            // ColumnHeaderSuit
+            // 
+            this.ColumnHeaderSuit.Text = "套装";
+            this.ColumnHeaderSuit.Width = 41;
             // 
             // ColumnHeaderName
             // 
@@ -326,7 +367,7 @@
             this.groupBox2.Controls.Add(this.ButtonSend);
             this.groupBox2.Controls.Add(this.NumericUpDownSS);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(1, 273);
+            this.groupBox2.Location = new System.Drawing.Point(1, 288);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(158, 102);
             this.groupBox2.TabIndex = 16;
@@ -421,45 +462,34 @@
             this.label6.TabIndex = 3;
             this.label6.Text = "强化";
             // 
-            // label11
+            // TextBoxMaxLv
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(85, 209);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(29, 12);
-            this.label11.TabIndex = 19;
-            this.label11.Text = "抗魔";
+            this.TextBoxMaxLv.Location = new System.Drawing.Point(101, 206);
+            this.TextBoxMaxLv.MaxLength = 3;
+            this.TextBoxMaxLv.Name = "TextBoxMaxLv";
+            this.TextBoxMaxLv.Size = new System.Drawing.Size(29, 21);
+            this.TextBoxMaxLv.TabIndex = 23;
+            this.TextBoxMaxLv.TextChanged += new System.EventHandler(this.TextBoxMaxLv_TextChanged);
             // 
-            // TextBoxAntiE
+            // label10
             // 
-            this.TextBoxAntiE.Location = new System.Drawing.Point(120, 206);
-            this.TextBoxAntiE.MaxLength = 3;
-            this.TextBoxAntiE.Name = "TextBoxAntiE";
-            this.TextBoxAntiE.Size = new System.Drawing.Size(29, 21);
-            this.TextBoxAntiE.TabIndex = 20;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(84, 209);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(11, 12);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "-";
             // 
-            // CheckBoxSuit
+            // ColumnHeaderMaxLv
             // 
-            this.CheckBoxSuit.AutoSize = true;
-            this.CheckBoxSuit.Checked = true;
-            this.CheckBoxSuit.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.CheckBoxSuit.Location = new System.Drawing.Point(12, 240);
-            this.CheckBoxSuit.Name = "CheckBoxSuit";
-            this.CheckBoxSuit.Size = new System.Drawing.Size(48, 16);
-            this.CheckBoxSuit.TabIndex = 21;
-            this.CheckBoxSuit.Text = "套装";
-            this.CheckBoxSuit.ThreeState = true;
-            this.CheckBoxSuit.UseVisualStyleBackColor = true;
-            // 
-            // ColumnHeaderSuit
-            // 
-            this.ColumnHeaderSuit.Text = "套装";
+            this.ColumnHeaderMaxLv.Text = "lvx";
+            this.ColumnHeaderMaxLv.Width = 45;
             // 
             // FormEquipments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 521);
+            this.ClientSize = new System.Drawing.Size(516, 521);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.ListViewEquipments);
             this.Controls.Add(this.TextBoxRaw);
@@ -520,5 +550,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox TextBoxAntiE;
         private System.Windows.Forms.ColumnHeader ColumnHeaderSuit;
+        private System.Windows.Forms.TextBox TextBoxMaxLv;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ColumnHeader ColumnHeaderMaxLv;
     }
 }
