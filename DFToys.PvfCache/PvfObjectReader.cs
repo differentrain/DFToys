@@ -55,7 +55,7 @@ namespace DFToys.PvfCache
                 throw new InvalidOperationException();
             var idx = _buf.Get<int>(_index * 5 + 3);
 
-            if (idx >= _strTab.Length)
+            if (idx >= _strTab.Length || idx < 0)
                 return null;
 
             string str = _strTab[idx];
