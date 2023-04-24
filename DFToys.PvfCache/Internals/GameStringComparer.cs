@@ -38,6 +38,15 @@ namespace DFToys.PvfCache.Internals
 
         public int Compare(string x, string y)
         {
+            if (x == null)
+            {
+                return y == null ? 0 : -1;
+            }
+            else if (y == null)
+            {
+                return x == null ? 0 : 1;
+            }
+
             var a = s_stringOrderDict.TryGetValue(x, out int v1);
             var b = s_stringOrderDict.TryGetValue(y, out int v2);
 
