@@ -1,6 +1,7 @@
 # DFToys
 
 DFToys 需要 .NET Frameworks 4.8。
+
 0725版辅助需要管理员权限。
 
 ## 路径设置
