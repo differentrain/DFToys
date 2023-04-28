@@ -68,6 +68,13 @@
             this.ButtonItemMain = new System.Windows.Forms.Button();
             this.ButtonEquipments = new System.Windows.Forms.Button();
             this.SaveFileDialogMain = new System.Windows.Forms.SaveFileDialog();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ButtonCatch = new System.Windows.Forms.Button();
+            this.CheckBoxGM = new System.Windows.Forms.CheckBox();
+            this.CheckBoxBreak = new System.Windows.Forms.CheckBox();
+            this.CheckBoxScore = new System.Windows.Forms.CheckBox();
+            this.ButtonSeal = new System.Windows.Forms.Button();
+            this.ButtonFix = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBoxID.SuspendLayout();
@@ -77,6 +84,7 @@
             this.PanelQuest.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.GroupBoxMail.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -431,6 +439,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox3);
             this.tabPage4.Controls.Add(this.GroupBoxMail);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
@@ -486,6 +495,87 @@
             this.SaveFileDialogMain.FileName = "publickey.pem";
             this.SaveFileDialogMain.Filter = "密钥文件|*.pem";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.ButtonFix);
+            this.groupBox3.Controls.Add(this.ButtonSeal);
+            this.groupBox3.Controls.Add(this.CheckBoxScore);
+            this.groupBox3.Controls.Add(this.CheckBoxBreak);
+            this.groupBox3.Controls.Add(this.CheckBoxGM);
+            this.groupBox3.Controls.Add(this.ButtonCatch);
+            this.groupBox3.Location = new System.Drawing.Point(9, 83);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(229, 75);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "0705辅助";
+            // 
+            // ButtonCatch
+            // 
+            this.ButtonCatch.Location = new System.Drawing.Point(6, 44);
+            this.ButtonCatch.Name = "ButtonCatch";
+            this.ButtonCatch.Size = new System.Drawing.Size(65, 23);
+            this.ButtonCatch.TabIndex = 0;
+            this.ButtonCatch.Text = "捕获游戏";
+            this.ButtonCatch.UseVisualStyleBackColor = true;
+            this.ButtonCatch.Click += new System.EventHandler(this.ButtonCatch_Click);
+            // 
+            // CheckBoxGM
+            // 
+            this.CheckBoxGM.AutoSize = true;
+            this.CheckBoxGM.Enabled = false;
+            this.CheckBoxGM.Location = new System.Drawing.Point(84, 24);
+            this.CheckBoxGM.Name = "CheckBoxGM";
+            this.CheckBoxGM.Size = new System.Drawing.Size(60, 16);
+            this.CheckBoxGM.TabIndex = 1;
+            this.CheckBoxGM.Text = "本地GM";
+            this.CheckBoxGM.UseVisualStyleBackColor = true;
+            this.CheckBoxGM.CheckedChanged += new System.EventHandler(this.CheckBoxGM_CheckedChanged);
+            // 
+            // CheckBoxBreak
+            // 
+            this.CheckBoxBreak.AutoSize = true;
+            this.CheckBoxBreak.Enabled = false;
+            this.CheckBoxBreak.Location = new System.Drawing.Point(151, 24);
+            this.CheckBoxBreak.Name = "CheckBoxBreak";
+            this.CheckBoxBreak.Size = new System.Drawing.Size(72, 16);
+            this.CheckBoxBreak.TabIndex = 2;
+            this.CheckBoxBreak.Text = "快速分解";
+            this.CheckBoxBreak.UseVisualStyleBackColor = true;
+            this.CheckBoxBreak.CheckedChanged += new System.EventHandler(this.CheckBoxFix_CheckedChanged);
+            // 
+            // CheckBoxScore
+            // 
+            this.CheckBoxScore.AutoSize = true;
+            this.CheckBoxScore.Enabled = false;
+            this.CheckBoxScore.Location = new System.Drawing.Point(6, 24);
+            this.CheckBoxScore.Name = "CheckBoxScore";
+            this.CheckBoxScore.Size = new System.Drawing.Size(72, 16);
+            this.CheckBoxScore.TabIndex = 3;
+            this.CheckBoxScore.Text = "评分最高";
+            this.CheckBoxScore.UseVisualStyleBackColor = true;
+            this.CheckBoxScore.CheckedChanged += new System.EventHandler(this.CheckBoxScore_CheckedChanged);
+            // 
+            // ButtonSeal
+            // 
+            this.ButtonSeal.Location = new System.Drawing.Point(84, 44);
+            this.ButtonSeal.Name = "ButtonSeal";
+            this.ButtonSeal.Size = new System.Drawing.Size(60, 23);
+            this.ButtonSeal.TabIndex = 4;
+            this.ButtonSeal.Text = "卖东西";
+            this.ButtonSeal.UseVisualStyleBackColor = true;
+            this.ButtonSeal.Click += new System.EventHandler(this.ButtonSeal_Click);
+            // 
+            // ButtonFix
+            // 
+            this.ButtonFix.Location = new System.Drawing.Point(153, 44);
+            this.ButtonFix.Name = "ButtonFix";
+            this.ButtonFix.Size = new System.Drawing.Size(61, 23);
+            this.ButtonFix.TabIndex = 5;
+            this.ButtonFix.Text = "修东西";
+            this.ButtonFix.UseVisualStyleBackColor = true;
+            this.ButtonFix.Click += new System.EventHandler(this.ButtonFix_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -512,6 +602,8 @@
             this.PanelQuest.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.GroupBoxMail.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -557,6 +649,13 @@
         private System.Windows.Forms.Button ButtonClearMail;
         private System.Windows.Forms.Button ButtonItemMain;
         private System.Windows.Forms.Button ButtonEquipments;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox CheckBoxScore;
+        private System.Windows.Forms.CheckBox CheckBoxBreak;
+        private System.Windows.Forms.CheckBox CheckBoxGM;
+        private System.Windows.Forms.Button ButtonCatch;
+        private System.Windows.Forms.Button ButtonFix;
+        private System.Windows.Forms.Button ButtonSeal;
     }
 }
 

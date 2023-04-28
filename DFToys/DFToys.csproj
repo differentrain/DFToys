@@ -94,6 +94,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -224,6 +227,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -253,6 +257,10 @@
     <ProjectReference Include="..\DFToys.DFStartUp\DFToys.DFStartup.csproj">
       <Project>{c0db5401-cc1a-48a0-944a-f5256244667d}</Project>
       <Name>DFToys.DFStartup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFToys.GameCheat\DFToys.GameCheat.csproj">
+      <Project>{a2ffdbd5-4ed7-4303-914b-449f2ed1867e}</Project>
+      <Name>DFToys.GameCheat</Name>
     </ProjectReference>
     <ProjectReference Include="..\DFToys.Models\DFToys.Models.csproj">
       <Project>{a1bae5f7-b577-4901-913c-ec637cd24b16}</Project>

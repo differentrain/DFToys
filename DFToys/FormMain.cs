@@ -1,5 +1,6 @@
 ﻿using DFToys.Common;
 using DFToys.DbConnection;
+using DFToys.GameCheat;
 using DFToys.GameStartup;
 using DFToys.Models;
 using System;
@@ -21,6 +22,8 @@ namespace DFToys
 
         public static DefaultGameDbVisitor GameDb = null;
 
+        public static GameProc0705 GameProc = null;
+
         public static int UId;
 
         public static GameCharacter GameCharac;
@@ -29,6 +32,7 @@ namespace DFToys
         public FormMain()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             _pvfLoadDialog.Owner = this;
             TextBoxIp.Text = MyConfig.Shared.Ip;
             TextBoxPort.Text = MyConfig.Shared.Port.ToString();
@@ -43,10 +47,10 @@ namespace DFToys
             {
                 TextBoxQuestCount.Text = $"任务:{MyCache.Shared.QuestCache.Count};物品:{MyCache.Shared.ItemCache.Count};装备:{MyCache.Shared.EquipmentCache.Count}";
                 _itemMainWindow.UpdateByCache();
-                _equipmentsMainWindow.UpdateByCache();  
+                _equipmentsMainWindow.UpdateByCache();
             }
 
- 
+
             TextBoxUserName.Text = MyConfig.Shared.UName;
 
         }
@@ -74,6 +78,7 @@ namespace DFToys
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             GameDb?.Dispose();
+            GameProc?.Dispose();
             MyConfig.Shared.Save();
             MyCache.Shared.Save();
         }
@@ -226,7 +231,7 @@ namespace DFToys
 
         private void ListBoxCharac_SelectedIndexChanged(object sender, EventArgs e)
         {
-             GroupBoxMail.Enabled = PanelQuest.Enabled = ListBoxCharac.SelectedIndex >= 0 && !string.IsNullOrWhiteSpace(TextBoxQuestCount.Text);
+            GroupBoxMail.Enabled = PanelQuest.Enabled = ListBoxCharac.SelectedIndex >= 0 && !string.IsNullOrWhiteSpace(TextBoxQuestCount.Text);
             GameCharac = ListBoxCharac.SelectedItem as GameCharacter;
             ListBoxQuest.SelectedItems.Clear();
             ListBoxQuest.Items.Clear();
@@ -243,7 +248,7 @@ namespace DFToys
         {
             ListBoxQuest.SelectedItems.Clear();
             ListBoxQuest.Items.Clear();
- 
+
             try
             {
                 var quests = GameDb.GetQuest(GameCharac.Id, MyCache.Shared.QuestCache);
@@ -266,7 +271,7 @@ namespace DFToys
         private void ButtonClearQuest_Click(object sender, EventArgs e)
         {
             var x = ListBoxQuest.SelectedItems.Cast<CurrentQuest>().ToArray();
- 
+
 
             try
             {
@@ -287,7 +292,7 @@ namespace DFToys
         private void ButtonClearAll_Click(object sender, EventArgs e)
         {
             var x = ListBoxQuest.Items.Cast<CurrentQuest>().ToArray();
- 
+
             try
             {
                 GameDb.ClearQuest<DefaultDbStringConvert>(GameCharac.Id, x.ToArray());
@@ -306,7 +311,7 @@ namespace DFToys
         {
             ListBoxQuest.SelectedItems.Clear();
             ListBoxQuest.Items.Clear();
- 
+
             try
             {
                 var quests = GameDb.GetQuest(GameCharac.Id, MyCache.Shared.QuestCache);
@@ -349,6 +354,84 @@ namespace DFToys
             {
                 MessageBox.Show(ecx.Message, "操作失败");
             }
+        }
+
+        private void ButtonCatch_Click(object sender, EventArgs e)
+        {
+            if (GameProc == null)
+            {
+                try
+                {
+                    GameProc = GameProc0705.TryCatch();
+                }
+                catch
+                {
+                    return;
+                }
+
+                if (GameProc != null)
+                {
+                    GameProc.GameExited += GameProc_GameExited;
+                    ButtonCatch.Text = "释放游戏";
+                    ButtonSeal.Enabled = ButtonFix.Enabled = CheckBoxGM.Enabled = CheckBoxBreak.Enabled = CheckBoxScore.Enabled = true;
+                }
+            }
+            else
+            {
+                GameProc_GameExited(sender, null);
+            }
+        }
+
+        private void GameProc_GameExited(object sender, EventArgs e)
+        {
+
+            ButtonSeal.Enabled = ButtonFix.Enabled = CheckBoxGM.Enabled = CheckBoxBreak.Enabled = CheckBoxScore.Enabled = false;
+            CheckBoxGM.Checked = CheckBoxBreak.Checked = CheckBoxScore.Checked = false;
+            GameProc.GameExited -= GameProc_GameExited;
+            GameProc.Dispose();
+            GameProc = null;
+            ButtonCatch.Text = "捕获游戏";
+        }
+
+        private void CheckBoxGM_CheckedChanged(object sender, EventArgs e)
+        {
+            var cb = sender as CheckBox;
+            if (!cb.Enabled)
+                return;
+            GameProc.SetGM(cb.Checked);
+        }
+
+        private void CheckBoxFix_CheckedChanged(object sender, EventArgs e)
+        {
+            var cb = sender as CheckBox;
+            if (!cb.Enabled)
+                return;
+            GameProc.SetBreak(cb.Checked);
+        }
+
+        private void CheckBoxScore_CheckedChanged(object sender, EventArgs e)
+        {
+            var cb = sender as CheckBox;
+            if (!cb.Enabled)
+                return;
+            GameProc.SetScore(cb.Checked);
+        }
+
+        private void ButtonSeal_Click(object sender, EventArgs e)
+        {
+            var cb = sender as Button;
+            if (!cb.Enabled)
+                return;
+            GameProc.Seal();
+
+        }
+
+        private void ButtonFix_Click(object sender, EventArgs e)
+        {
+            var cb = sender as Button;
+            if (!cb.Enabled)
+                return;
+            GameProc.Fix();
         }
     }
 }
