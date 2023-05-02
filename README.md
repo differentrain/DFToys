@@ -37,6 +37,6 @@ Pvf读取用于获取游戏中的任务和物品信息。
 
 在1.0.3之前的版本中，存在数据库乱码的问题。这是因为MySQL的默认编码是latin1，对应Windows代码页1252。
 
-此问题在后续版本中已经解决，如依然有乱码问题，应当检查服务器中的MySQL编码配置，它通常位于 `/etc/my.cnt` 文件中，并重写 `string GetStringFromSqlString(string sqlString)` 方法。
+此问题在后续版本中已经解决，如依然有乱码问题，应当检查服务器中的MySQL编码配置，它通常位于 `/etc/my.cnt` 文件中，并实现 [DFToys.Common.DbStringConvert](https://github.com/differentrain/DFToys/blob/master/DFToys.Common/DbStringConvert.cs),或直接修改[DFToys.Common.DefaultDbStringConvert](https://github.com/differentrain/DFToys/blob/master/DFToys.Common/DefaultDbStringConvert.cs)。
 
 另外，根据规范，cp1252中，以下字符属于未定义：`0x81`, `0x8D`, `0x8F`, `0x90`, `0x9D`. 而MySQL所实现的latin1，会将这五个字符映射为Unicode16编码。但在实际测试中，.NET Frameworks的Encoding可以自动完成此映射操作，无需特殊处理。
